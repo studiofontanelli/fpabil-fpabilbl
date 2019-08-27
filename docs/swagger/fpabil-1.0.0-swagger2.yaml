@@ -1,0 +1,3276 @@
+swagger: '2.0'
+info:
+  title: FPABIL
+  description: Gestione 
+  version: 1.0.0
+host: tst-applogic.reteunitaria.piemonte.it
+basePath: /stawapp/rest
+tags:
+  - name: common
+    description: Servizi comuni
+  - name: bollo
+    description: I servizi inerenti la tassa automobilistica
+  - name: info bollo
+    description: Servizi per funzionalità info bollo
+  - name: memo bollo
+    description: Servizi per funzionalità memo bollo
+  - name: osservazione
+    description: Servizi per inserimento osservazione
+  - name: pagamento
+    description: Servizi per pagamenti online
+  - name: rateizzazione
+    description: Servizi inserimento richiesta rateizzazione
+  - name: ricevuta
+    description: Servizi per ricevuta telematica
+  - name: veicolo
+    description: Per ottenere informazioni a proposito dei veicoli
+  - name: verifica pratica
+    description: Servizi per funzionalità verifica pratica
+  - name: visura
+    description: Servizi per visura
+schemes:
+  - http
+paths:
+  /bollo/calcola:
+    get:
+      tags:
+        - bollo
+      summary: Calcolo Bollo
+      description: >-
+        Calcolo dell'importo della Tassa Automobilistica a partire dalla targa e
+        dal tipo veicolo
+      operationId: calcolaBollo
+      consumes:
+        - application/json
+        - application/xml
+      produces:
+        - application/json
+        - application/xml
+      parameters:
+        - in: query
+          name: targa
+          type: string
+          required: true
+          description: >-
+            La targa del veicolo impiegata per eseguire il calcolo della tassa
+            automobilistica
+        - in: query
+          name: tipo_veicolo
+          type: string
+          required: true
+          description: >-
+            Il tipo del veicolo impiegato per eseguire il calcolo della tassa
+            automobilistica
+      responses:
+        '200':
+          description: Calcolo eseguito con successo
+          schema:
+            $ref: '#/definitions/EsitoCalcoloBolloVO'
+        '400':
+          description: Campi obbligatori mancanti
+        '404':
+          description: 'Veicolo non trovato, calcolo bollo non eseguito'
+        '422':
+          description: Formato errato della targa
+  /veicolo/lista:
+    get:
+      tags:
+        - veicolo
+      summary: Lista tipo veicoli
+      description: Restituisce la lista dei tipi di veicoli
+      operationId: listaVeicoli
+      consumes:
+        - application/json
+        - application/xml
+      produces:
+        - application/json
+        - application/xml
+      parameters:
+        - in: query
+          name: filtro
+          type: string
+          required: false
+          description: Filtra opzionalmente i tipi veicoli dalla lista finale
+      responses:
+        '200':
+          description: Lista dei tipi di veicolo estratta con successo
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/TipoVeicolo'
+  /veicolo/combustibile:
+    get:
+      tags:
+        - veicolo
+      summary: Lista tipo combustibili
+      description: Restituisce la lista dei tipi combustibili
+      operationId: getListaCombustibili
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      responses:
+        '200':
+          description: Lista tipo carburanti
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Alimentazione'
+  /veicolo/categoriaEuro:
+    get:
+      tags:
+        - veicolo
+      summary: Lista categoria Euro
+      description: Restituisce la lista delle categorie Euro
+      operationId: getListaCategorieEuro
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      responses:
+        '200':
+          description: Lista categoria Euro
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/CategoriaEuro'
+  /osservazione/scadenza/cerca:
+    get:
+      tags: 
+        - osservazione
+      summary: ricerca avviso di scadenza
+      description: metodo di ricerca dati avviso di scadenza
+      operationId: ricercaAvvisoScadenza
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters: 
+        - in: query
+          name: numeroRiferimento
+          type: string
+          required: true
+          description: numero riferimento avviso di scadenza
+        - in: query
+          name: codiceFiscale
+          type: string
+          required: true
+          description: codice fiscale proprietario
+        - in: query
+          name: targa
+          type: string
+          required: true
+          description: targa veicolo
+        - in: query
+          name: tipoVeicolo
+          type: string
+          required: true
+          description: codice tipo veicolo
+      responses:
+        200:
+          description: avviso scadenza recuperato
+          schema:
+            $ref: '#/definitions/AvvisoScadenzaVO'
+        400:
+          description: parametri obbligatori non valorizzati
+        404:
+          description: avviso non trovato
+        409: 
+          description: "esiste un'osservazione in lavorazione per l'avviso indicato"
+        422:
+          description: formato errato parametri
+  /osservazione/scadenza/allegato:
+    post:
+      tags:
+        - osservazione
+      summary: carica allegato
+      description: carica un documento come allegato di un' osservazione di avviso di scadenza
+      operationId: caricaAllegato
+      consumes:
+        - multipart/form-data
+      produces: 
+        - application/json
+      parameters: 
+        - in: formData
+          name: upFile
+          type: file
+          description: file da caricare
+          required: true
+        - in: formData
+          name: numeroRiferimento
+          type: string
+          description: numero riferimento avviso
+          required: true
+        - in: formData
+          name: codiceFiscale
+          type: string
+          description: codice fiscale proprietario
+          required: true
+        - in: formData
+          name: targa
+          type: string
+          description: targa veicolo
+          required: true
+        - in: formData
+          name: cognome
+          type: string
+          description: cognome proprietario
+          required: true
+      responses:
+        200:
+          description: File caricato con successo
+          schema:
+            $ref: '#/definitions/AllegatoVO'
+        400:
+          description: parametri obbligatori non valorizzati
+        406:
+          description: Estensione file non è del tipo corretto
+        422:
+          description: formato errato parametri
+        412:
+          description: File supera la dimensione massima consentita
+  /osservazione/scadenza/allegato/{id}:
+    delete:
+      tags:
+        - osservazione
+      summary: elimina allegato
+      description: elimina documento allegato precedentemente caricato
+      operationId: eliminaAllegato
+      consumes:
+        - application/json
+      produces: 
+        - application/json
+      parameters:
+        - in: path
+          name: id
+          type: string
+          description: id allegato da eliminare
+          required: true
+        - in: query
+          name: idScadenzaVeicolo
+          type: integer
+          description: identificativo chiave su TAU_T_AVVISO_SCADENZA_VEICOLO
+          format: int64
+          required: true
+      responses:
+        204:
+          description: "documento eliminato con successo"
+        400:
+          description: parametri obbligatori non valorizzati
+        404:
+          description: "avviso non trovato"
+        409: 
+          description: "esiste un'osservazione in lavorazione per l'avviso indicato"
+  /osservazione/scadenza:
+    post:
+      tags:
+        - osservazione
+      summary: crea osservazione
+      description: crea osservazione per avviso di scadenza
+      operationId: salvaOsservazioneAvvisoScadenza
+      consumes:
+        - application/json
+      produces: 
+        - application/json
+      parameters: 
+        - in: body
+          name: request
+          description: parametri creazione osservazione avviso di scadenza
+          schema:
+            $ref: '#/definitions/RequestCreaOsservazioneAvvisoScadenza'
+      responses:
+        200:
+          description: "operazione terminata con successo"
+          schema:
+            $ref: '#/definitions/OsservazioneVO'
+        404:
+          description: "avviso non trovato"
+        409: 
+          description: "esiste un'osservazione in lavorazione per l'avviso indicato"
+  /pagamento/carrello/limite:
+    get:
+      tags:
+        - pagamento
+      summary: Restuisce limite carrello
+      description: Recupera parametro limite grandezza carrello
+      operationId: getParametroLimiteCarrello
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      responses:
+        200:
+          description: OK
+          schema:
+            type: object
+            properties:
+              valore:
+                type: integer
+                format: int32
+                example: 15
+                description: limite grandezza carrello
+  /pagamento/controllo/scadenza:
+    get:
+      tags:
+        - pagamento
+      summary: Controllo disponibilità calcolo scadenza
+      description: Controllo se tipo veicolo è abilitato al calcolo tassa su scadenza pregressa
+      operationId: controllaDisponibilitaScadenza
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - in: query
+          name: tipoVeicolo
+          type: string
+          description: codice tipo veicolo
+          required: true
+      responses:
+        '200':
+          description: controllo eseguito con successo
+          schema:
+            $ref: '#/definitions/ResponseDisponibilitaScadenza'
+  /pagamento/scadenza/mesi:
+    get:
+      tags:
+        - pagamento
+      summary: Lista mesi scadenza
+      description: Restituisce lista possibili mesi scadenza
+      operationId: getMesiValidita
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      responses:
+        200:
+          description: OK
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/ParametroScadenzaVO'
+  /pagamento/scadenza/anni: 
+    get:
+      tags:
+        - pagamento
+      summary: Lista anni scadenza
+      description: Restituisce lista possibili anni scadenza
+      operationId: getAnniValidita
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      responses:
+        200:
+          description: OK
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/ParametroScadenzaVO'
+  /pagamento/scadenza/validita:
+    get:
+      tags:
+        - pagamento
+      summary: Lista validita
+      description: Restituisce lista possibili mesi validita
+      operationId: getListaValidita
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      responses:
+        200:
+          description: OK
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/ParametroScadenzaVO'
+  /pagamento/calcolo/iuv/{iuv}:
+    get:
+      tags:
+        - pagamento
+      summary: Ricerca pagamento by IUV
+      description: >-
+        Cerca pagamento con dati veicolo e dettaglio importi tramite codice
+        univoco
+      operationId: calcolaPagamentoByIuv
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - in: path
+          name: iuv
+          type: string
+          description: identificativo univoco di pagamento
+          required: true
+      responses:
+        '200':
+          description: calcolo eseguito con successo
+          schema:
+            $ref: '#/definitions/ResponseCalcolaPagamento'
+        '400':
+          description: parametri obbligatori non valorizzati
+        '404':
+          description: IUV non trovato
+        '406':
+          description: stato pagamento non aperto
+        '409':
+          description: Calcolo terminato con errore; Ulteriori dettagli nella risposta.
+        '412':
+          description: Proprietario non trovato
+  /pagamento/calcolo/rinnovo:
+    get:
+      tags:
+        - pagamento
+      summary: Calcola pagamento per veicolo (modalità rinnovo)
+      description: Calcola pagamento con dati veicolo in modalità rinnovo
+      operationId: calcolaPagamentoRinnovo
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - in: query
+          name: tipoVeicolo
+          type: string
+          required: true
+        - in: query
+          name: targa
+          type: string
+          required: true
+        - in: query
+          name: codiceFiscale
+          type: string
+          required: true
+      responses:
+        '200':
+          description: calcolo eseguito con successo
+          schema:
+            $ref: '#/definitions/ResponseCalcolaPagamento'
+        '400':
+          description: parametri obbligatori non valorizzati
+        '403':
+          description: Proprietario non corrisponde al codice fiscale in input
+        '409':
+          description: Calcolo terminato con errore; Ulteriori dettagli nella risposta.
+        '412':
+          description: Proprietario non trovato
+        '422':
+          description: errore formato dati
+  /pagamento/calcolo/scadenza:
+    get:
+      tags:
+        - pagamento
+      summary: Calcola pagamento per veicolo (modalità scadenza)
+      description: Calcola pagamento con dati veicolo in modalità scadenza
+      operationId: calcolaPagamentoScadenza
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - in: query
+          name: tipoVeicolo
+          type: string
+          required: true
+        - in: query
+          name: targa
+          type: string
+          required: true
+        - in: query
+          name: codiceFiscale
+          type: string
+          required: true
+        - in: query
+          name: meseScadenza
+          type: integer
+          format: int32
+          required: true
+        - in: query
+          name: annoScadenza
+          type: integer
+          format: int32
+          required: true
+        - in: query
+          name: validita
+          type: integer
+          format: int32
+          required: true
+      responses:
+        '200':
+          description: calcolo eseguito con successo
+          schema:
+            $ref: '#/definitions/ResponseCalcolaPagamento'
+        '400':
+          description: parametri obbligatori non valorizzati
+        '403':
+          description: Proprietario non corrisponde al codice fiscale in input
+        '409':
+          description: Calcolo terminato con errore; Ulteriori dettagli nella risposta.
+        '412':
+          description: Proprietario non trovato
+        '422':
+          description: errore formato dati
+  /pagamento/transazione/crea:
+    post:
+      tags:
+        - pagamento
+      summary: Inizia transazione pagamento
+      description: >-
+        Inizia interazione con PagoPA inizializzando transazione pagamento del
+        carrello in input
+      operationId: creaTransazionePagamento
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - in: body
+          name: request
+          schema:
+            $ref: '#/definitions/RequestCreaTransazione'
+          required: true
+      responses:
+        200:
+          description: transazione con PagoPA pronta
+          schema:
+            $ref: '#/definitions/ResponseCreaTransazione'
+        400:
+          description: parametri obbligatori non valorizzati
+        422:
+          description: errore formato dati
+  '/pagamento/transazione/riepilogo/{identificativo}':
+    get:
+      tags:
+        - pagamento
+      summary: Riepilogo transazione
+      description: >-
+        Restituisce dettagli e stato attuale della transazione identificata dal
+        codice in input
+      operationId: getRiepilogoTransazione
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - in: path
+          name: identificativo
+          type: string
+          required: true
+          description: identificativo transazione creato da integrazione con MDP
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/TransazionePagamentoVO'
+        '400':
+          description: parametro obbligatorio non valorizzato
+        '404':
+          description: Nessun dato trovato
+  /rateizzazione/fasce:
+    get:
+      tags:
+        - rateizzazione
+      summary: Lista fasce rateizzazione
+      description: Servizio per recuperare il previsto numero di rate per le varie fasce in cui può ricadere l' importo da pagare
+      operationId: getFasceRateizzazione
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      responses:
+        200:
+          description: OK
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/ImportoRateVO'
+  /rateizzazione/proprietario/cerca/{codiceFiscale}:
+    get:
+      tags:
+        - rateizzazione
+      summary: Cerca dati proprietario
+      description: Cerca dati proprietario per codice fiscale
+      operationId: getProprietarioByCf
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - in: path
+          name: codiceFiscale 
+          type: string
+          description: codice fiscale proprietario
+          required: true
+      responses:
+        200:
+          description: Ricerca eseguita con successo
+          schema:
+            $ref: '#/definitions/SoggettoRateizzazioneVO'
+        400:
+          description: parametri obbligatori non valorizzati
+        422:
+          description: errore formato dati
+  /rateizzazione/proprietario/conferma:
+    get:
+      tags:
+        - rateizzazione
+      summary: Conferma dati contribuente (proprietario)
+      description: Conferma proprietario e lista avvisi accertamento da rateizzare
+      operationId: calcolaRateizzazioneProprietario
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - in: query
+          name: codiceFiscale
+          type: string
+          description: codice fiscale proprietario
+          required: true
+        - in: query
+          name: numeroProtocollo
+          type: array
+          items:
+            type: string
+          description: lista di numero protocollo
+          required: true
+      responses:
+        200:
+          description: Ricerca eseguita con successo
+          schema:
+            $ref: '#/definitions/ResponseConfermaDatiContribuente'
+        400:
+          description: parametri obbligatori non valorizzati
+        404:
+          description: avviso accertamento non trovato
+        422:
+          description: errore formato dati
+        403:
+          description: codice fiscale non corrisponde al soggetto dell'avviso accertamento
+  /rateizzazione/allegato:
+    post:
+      tags:
+        - rateizzazione
+      summary: Carica allegato
+      description: carica un documento come allegato di una richiesta di rateizzazione
+      operationId: caricaAllegatoRateizzazione
+      consumes:
+        - multipart/form-data
+      produces: 
+        - application/json
+      parameters: 
+        - in: formData
+          name: upFile
+          type: file
+          description: file da caricare
+          required: true
+        - in: formData
+          name: codiceFiscale
+          type: string
+          description: codice fiscale proprietario
+          required: true
+        - in: formData
+          name: cognome
+          type: string
+          description: cognome proprietario o denominazione
+          required: true
+      responses:
+        200:
+          description: File caricato con successo
+          schema:
+            $ref: '#/definitions/AllegatoVO'
+        400:
+          description: parametri obbligatori non valorizzati
+        406:
+          description: Estensione file non è del tipo corretto
+        422:
+          description: formato errato parametri
+        412:
+          description: File supera la dimensione massima consentita
+  /rateizzazione/allegato/{id}:
+    delete:
+      tags:
+        - rateizzazione
+      summary: elimina allegato
+      description: elimina documento allegato precedentemente caricato
+      operationId: eliminaAllegatoRateizzazione
+      consumes:
+        - application/json
+      produces: 
+        - application/json
+      parameters:
+        - in: path
+          name: id
+          type: string
+          description: id allegato da eliminare
+          required: true
+      responses:
+        204:
+          description: "documento eliminato con successo"
+  /rateizzazione/avviso:
+    post:
+      tags:
+        - rateizzazione
+      summary: Crea domanda di rateizzazione
+      description: Salva domanda di rateizzazione ed invia notifica ricezione
+      operationId: salvaDomandaRateizzazione
+      consumes:
+        - application/json
+      produces: 
+        - application/json
+      parameters:
+        - in: body
+          name: request
+          required: true
+          schema:
+            $ref: '#/definitions/RequestSalvaDomandaRateizzazione'
+      responses:
+        200:
+          description: richiesta inviata
+          schema:
+            $ref: '#/definitions/DomandaRateizzazioneVO'
+        400:
+          description: parametri obbligatori non valorizzati
+        422:
+          description: errore formato dati    
+  '/ricevuta/{iuv}':
+    get:
+      tags:
+        - ricevuta
+      summary: Ricerca dettagli ricevuta telematica singola/cumulativa
+      description: Ricerca ricevuta telematica
+      operationId: getRicevutaTelematicaByIuv
+      parameters:
+        - in: path
+          name: iuv
+          type: string
+          required: true
+          description: identificativo univoco di pagamento
+      consumes:
+        - application/json
+        - application/xml
+      produces:
+        - application/json
+        - application/xml
+      responses:
+        '200':
+          description: Dettaglio ricevuta recuperata con successo
+          schema:
+            $ref: '#/definitions/RiepilogoTransazionePagamentoVO'
+        '404':
+          description: Nessun dato trovato
+  /ricevuta/scaricaPdf:
+    get:
+      tags:
+        - ricevuta
+      summary: Scarica ricevuta PDF
+      description: Scarica ricevuta in formato PDF
+      operationId: scaricaRicevutaPdf
+      consumes:
+        - application/json
+        - application/xml
+      produces:
+        - application/pdf
+        - application/json
+      parameters:
+        - in: query
+          name: iuv
+          type: string
+          required: true
+          description: Identificativo univoco pagamento
+        - in: query
+          name: cf
+          type: string
+          required: false
+          description: Codice fiscale; obbligatorio per tipologia ricevuta singola
+        - in: query
+          name: tipoVeicolo
+          type: string
+          required: false
+          description: Codice tipo veicolo; obbligatorio per tipologia ricevuta singola
+        - in: query
+          name: targa
+          type: string
+          required: false
+          description: Targa veicolo; obbligatorio per tipologia ricevuta singola
+        - in: query
+          name: carrello
+          type: string
+          required: false
+          description: >-
+            Codice identificativo carrello; obbligatorio per tipologia ricevuta
+            cumulativa
+        - in: query
+          name: tipologia
+          type: string
+          required: true
+          description: >-
+            Tipologia singolo o cumulativo; popolare rispettivamente con valori
+            S o C a seconda della casistica richiesta.
+      responses:
+        '200':
+          description: stringa di byte del file in formato PDF
+          schema:
+            type: string
+            format: bynary
+        '400':
+          description: parametri obbligatori non valorizzati
+        '404':
+          description: nessun dato trovato
+        '422':
+          description: Formato errato parametri
+  /common/informativaPrivacy:
+    get:
+      tags:
+        - common
+      summary: Restituisce testo informativa privacy
+      description: >-
+        Servizio che restituisce il testo in formato html dell' informativa
+        privacy
+      operationId: getInformativaPrivacy
+      consumes:
+        - application/json
+        - application/xml
+      produces:
+        - application/json
+        - application/xml
+      responses:
+        '200':
+          description: contenuto testo informativa
+          schema:
+            type: object
+            properties:
+              informativa:
+                type: string
+  /infoBollo/email/verifica:
+    get:
+      tags:
+        - info bollo
+      summary: Verifica stato attivazione email
+      description: >-
+        Servizio che restituisce lo stato di attivazione di un indirizzo mail al
+        servizio di infoBollo
+      operationId: verificaInfoBolloEmail
+      consumes:
+        - application/json
+        - application/xml
+      produces:
+        - application/json
+        - application/xml
+      parameters:
+        - in: query
+          name: email
+          type: string
+          required: true
+          description: indirizzo mail da verificare
+      responses:
+        '200':
+          description: verifica eseguita con successo
+          schema:
+            $ref: '#/definitions/EsitoVerificaVO'
+        '400':
+          description: parametri obbligatori non valorizzati
+        '422':
+          description: Formato errato parametri
+  /infoBollo/email/richiestaRevoca:
+    post:
+      tags:
+        - info bollo
+      summary: Richiesta revoca email
+      description: >-
+        Servizio che fa partire la richiesta per revocare indirizzo mail da info
+        bollo. Una mail con token di sicurezza verrà inviata all' utente
+        richiedente per confermare la decisione di revoca
+      operationId: richiestaRevocaInfoBolloEmail
+      consumes:
+        - application/json
+        - application/xml
+      produces:
+        - application/json
+        - application/xml
+      parameters:
+        - in: body
+          name: request
+          schema:
+            $ref: '#/definitions/RequestRichiestaInfoBolloEmail'
+          required: true
+      responses:
+        '200':
+          description: richiesta revoca eseguita con successo
+          schema:
+            $ref: '#/definitions/EsitoOperazioneInfoBolloVO'
+        '400':
+          description: parametri obbligatori non valorizzati
+        '404':
+          description: destinatario non trovato
+        '422':
+          description: Formato errato parametri
+  /infoBollo/email/revoca:
+    put:
+      tags:
+        - info bollo
+      summary: conferma revoca email
+      description: servizio per revocare indirizzo mail
+      operationId: confermaRichiestaRevocaInfoBolloEmail
+      consumes:
+        - application/json
+        - application/xml
+      produces:
+        - application/json
+        - application/xml
+      parameters:
+        - in: body
+          name: request
+          schema:
+            $ref: '#/definitions/RequestConfermaInfoBolloEmail'
+          required: true
+      responses:
+        '200':
+          description: revoca eseguita con successo
+          schema:
+            $ref: '#/definitions/EsitoOperazioneInfoBolloVO'
+        '400':
+          description: token di sicurezza non valido/scaduto
+        '404':
+          description: destinatario non trovato
+        '422':
+          description: Formato errato parametri
+  /infoBollo/email/richiestaAttivazione:
+    post:
+      tags:
+        - info bollo
+      summary: Richiesta attivazione email
+      description: >-
+        Servizio che fa partire la richiesta per attivare indirizzo mail da info
+        bollo. Una mail con token di sicurezza verrà inviata all' utente
+        richiedente per confermare la decisione di attivazione
+      operationId: richiestaAttivazioneInfoBolloEmail
+      consumes:
+        - application/json
+        - application/xml
+      produces:
+        - application/json
+        - application/xml
+      parameters:
+        - in: body
+          name: request
+          schema:
+            $ref: '#/definitions/RequestRichiestaInfoBolloEmail'
+          required: true
+      responses:
+        '200':
+          description: richiesta attivazione eseguita con successo
+          schema:
+            $ref: '#/definitions/EsitoOperazioneInfoBolloVO'
+        '400':
+          description: parametri obbligatori non valorizzati
+        '404':
+          description: destinatario non trovato
+        '422':
+          description: Formato errato parametri
+  /infoBollo/email/attivazione:
+    put:
+      tags:
+        - info bollo
+      summary: Conferma attivazione email
+      description: Servizio per attivare indirizzo mail
+      operationId: confermaRichiestaAttivazioneInfoBolloEmail
+      consumes:
+        - application/json
+        - application/xml
+      produces:
+        - application/json
+        - application/xml
+      parameters:
+        - in: body
+          name: request
+          schema:
+            $ref: '#/definitions/RequestConfermaInfoBolloEmail'
+          required: true
+      responses:
+        '200':
+          description: attivazione eseguita con successo
+          schema:
+            $ref: '#/definitions/EsitoOperazioneInfoBolloVO'
+        '400':
+          description: token di sicurezza non valido/scaduto
+        '404':
+          description: destinatario non trovato
+        '422':
+          description: Formato errato parametri
+  /infoBollo/sms/verifica:
+    get:
+      tags:
+        - info bollo
+      summary: Verifica stato attivazione cell
+      description: >-
+        Servizio che restituisce lo stato di attivazione di un numero cell al
+        servizio di infoBollo
+      operationId: verificaInfoBolloSms
+      consumes:
+        - application/json
+        - application/xml
+      produces:
+        - application/json
+        - application/xml
+      parameters:
+        - in: query
+          name: cell
+          type: string
+          required: true
+          description: numero cell da verificare
+      responses:
+        '200':
+          description: verifica eseguita con successo
+          schema:
+            $ref: '#/definitions/EsitoVerificaVO'
+        '400':
+          description: parametri obbligatori non valorizzati
+        '422':
+          description: Formato errato parametri
+  /infoBollo/sms/richiestaRevoca:
+    post:
+      tags:
+        - info bollo
+      summary: Richiesta revoca numero cell
+      description: >-
+        Servizio che fa partire la richiesta per revocare numero cell da info
+        bollo. Un sms con pin di sicurezza verrà inviata all' utente richiedente
+        per confermare la decisione di revoca
+      operationId: richiestaRevocaInfoBolloSms
+      consumes:
+        - application/json
+        - application/xml
+      produces:
+        - application/json
+        - application/xml
+      parameters:
+        - in: body
+          name: request
+          schema:
+            $ref: '#/definitions/RequestRichiestaInfoBolloSms'
+          required: true
+      responses:
+        '200':
+          description: richiesta revoca eseguita con successo
+          schema:
+            $ref: '#/definitions/EsitoOperazioneInfoBolloVO'
+        '400':
+          description: parametri obbligatori non valorizzati
+        '404':
+          description: destinatario non trovato
+        '422':
+          description: Formato errato parametri
+  /infoBollo/sms/revoca:
+    put:
+      tags:
+        - info bollo
+      summary: Conferma revoca numero cell
+      description: Servizio per revocare numero cell
+      operationId: confermaRichiestaRevocaInfoBolloSms
+      consumes:
+        - application/json
+        - application/xml
+      produces:
+        - application/json
+        - application/xml
+      parameters:
+        - in: body
+          name: request
+          schema:
+            $ref: '#/definitions/RequestConfermaInfoBolloSms'
+          required: true
+      responses:
+        '200':
+          description: revoca eseguita con successo
+          schema:
+            $ref: '#/definitions/EsitoOperazioneInfoBolloVO'
+        '400':
+          description: token di sicurezza non valido/scaduto
+        '404':
+          description: destinatario non trovato
+        '422':
+          description: Formato errato parametri
+  /infoBollo/sms/richiestaAttivazione:
+    post:
+      tags:
+        - info bollo
+      summary: Richiesta attivazione numero cell
+      description: >-
+        Servizio che fa partire la richiesta per attivare numero cell da info
+        bollo. Un SMS con pin di sicurezza verrà inviata all' utente richiedente
+        per confermare la decisione di attivazione
+      operationId: richiestaAttivazioneInfoBolloSms
+      consumes:
+        - application/json
+        - application/xml
+      produces:
+        - application/json
+        - application/xml
+      parameters:
+        - in: body
+          name: request
+          schema:
+            $ref: '#/definitions/RequestRichiestaInfoBolloSms'
+          required: true
+      responses:
+        '200':
+          description: richiesta attivazione eseguita con successo
+          schema:
+            $ref: '#/definitions/EsitoOperazioneInfoBolloVO'
+        '400':
+          description: parametri obbligatori non valorizzati
+        '404':
+          description: destinatario non trovato
+        '422':
+          description: Formato errato parametri
+  /infoBollo/sms/attivazione:
+    put:
+      tags:
+        - info bollo
+      summary: Conferma attivazione numero cell
+      description: Servizio per attivare numero cell
+      operationId: confermaRichiestaAttivazioneInfoBolloSms
+      consumes:
+        - application/json
+        - application/xml
+      produces:
+        - application/json
+        - application/xml
+      parameters:
+        - in: body
+          name: request
+          schema:
+            $ref: '#/definitions/RequestConfermaInfoBolloSms'
+          required: true
+      responses:
+        '200':
+          description: attivazione eseguita con successo
+          schema:
+            $ref: '#/definitions/EsitoOperazioneInfoBolloVO'
+        '400':
+          description: token di sicurezza non valido/scaduto
+        '404':
+          description: destinatario non trovato
+        '422':
+          description: Formato errato parametri
+  /memoBollo/verifica:
+    get:
+      tags:
+        - memo bollo
+      summary: Stato registrazione servizio memobollo
+      description: >-
+        Recupera stato registrazione servizio memobollo del veicolo ricercato
+        verso un indirizzo email e un numero cellulare
+      operationId: getStatoRegistrazioneMemoBollo
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - in: query
+          name: targa
+          type: string
+          required: true
+        - in: query
+          name: tipoVeicolo
+          type: string
+          required: true
+        - in: query
+          name: codiceFiscale
+          type: string
+          required: true
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/ResponseVerificaMemoBollo'
+        '400':
+          description: parametri obbligatori non valorizzati
+        '403':
+          description: codice fiscale non corrisponde al proprietario del veicolo
+        '404':
+          description: veicolo non trovato
+        '422':
+          description: formato errato parametri
+  /memoBollo/email/richiestaAttivazione:
+    post:
+      tags:
+        - memo bollo
+      summary: Richiesta attivazione email
+      description: >-
+        Servizio che fa partire la richiesta per attivare indirizzo mail per
+        memo bollo. Una mail con token di sicurezza verrà inviata all' utente
+        richiedente per confermare la decisione di attivazione
+      operationId: richiestaAttivazioneMemoBolloEmail
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - in: body
+          name: request
+          schema:
+            $ref: '#/definitions/RequestRichiestaMemoBolloEmail'
+          required: true
+      responses:
+        '200':
+          description: richiesta attivazione eseguita con successo
+          schema:
+            $ref: '#/definitions/EsitoOperazioneMemoBolloVO'
+        '400':
+          description: parametri obbligatori non valorizzati
+        '403':
+          description: codice fiscale non corrisponde al proprietario del veicolo
+        '404':
+          description: veicolo non trovato
+        '422':
+          description: formato errato parametri
+  /memoBollo/email/attivazione:
+    put:
+      tags:
+        - memo bollo
+      summary: Conferma attivazione email
+      description: Servizio per attivare indirizzo mail
+      operationId: confermaAttivazioneMemoBolloEmail
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - in: body
+          name: request
+          schema:
+            $ref: '#/definitions/RequestConfermaMemoBolloEmail'
+          required: true
+      responses:
+        '200':
+          description: attivazione eseguita con successo
+          schema:
+            $ref: '#/definitions/EsitoOperazioneMemoBolloVO'
+        '400':
+          description: token di sicurezza non valido/scaduto
+        '404':
+          description: destinatario non trovato
+        '422':
+          description: Formato errato parametri
+  /memoBollo/email/richiestaRevoca:
+    post:
+      tags:
+        - memo bollo
+      summary: Richiesta revoca email
+      description: >-
+        Servizio che fa partire la richiesta per revocare indirizzo mail di memo
+        bollo. Una mail con token di sicurezza verrà inviata all' utente
+        richiedente per confermare la decisione di revoca
+      operationId: richiestaRevocaMemoBolloEmail
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - in: body
+          name: request
+          schema:
+            $ref: '#/definitions/RequestRichiestaMemoBolloEmail'
+          required: true
+      responses:
+        '200':
+          description: richiesta revoca eseguita con successo
+          schema:
+            $ref: '#/definitions/EsitoOperazioneMemoBolloVO'
+        '400':
+          description: parametri obbligatori non valorizzati
+        '403':
+          description: codice fiscale non corrisponde al proprietario del veicolo
+        '404':
+          description: veicolo non trovato
+        '422':
+          description: formato errato parametri
+  /memoBollo/email/revoca:
+    put:
+      tags:
+        - memo bollo
+      summary: Conferma revoca email
+      description: servizio per revocare indirizzo mail
+      operationId: confermaRevocaMemoBolloEmail
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - in: body
+          name: request
+          schema:
+            $ref: '#/definitions/RequestConfermaMemoBolloEmail'
+          required: true
+      responses:
+        '200':
+          description: revoca eseguita con successo
+          schema:
+            $ref: '#/definitions/EsitoOperazioneMemoBolloVO'
+        '400':
+          description: token di sicurezza non valido/scaduto
+        '404':
+          description: destinatario non trovato
+        '422':
+          description: Formato errato parametri
+  /memoBollo/sms/richiestaAttivazione:
+    post:
+      tags:
+        - memo bollo
+      summary: Richiesta attivazione numero cell
+      description: >-
+        Servizio che fa partire la richiesta per attivare numero cell per memo
+        bollo. Un sms con token di sicurezza verrà inviata all' utente
+        richiedente per confermare la decisione di attivazione
+      operationId: richiestaAttivazioneMemoBolloSms
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - in: body
+          name: request
+          schema:
+            $ref: '#/definitions/RequestRichiestaMemoBolloSms'
+          required: true
+      responses:
+        '200':
+          description: richiesta attivazione eseguita con successo
+          schema:
+            $ref: '#/definitions/EsitoOperazioneMemoBolloVO'
+        '400':
+          description: parametri obbligatori non valorizzati
+        '403':
+          description: codice fiscale non corrisponde al proprietario del veicolo
+        '404':
+          description: veicolo non trovato
+        '422':
+          description: formato errato parametri
+  /memoBollo/sms/attivazione:
+    put:
+      tags:
+        - memo bollo
+      summary: Conferma attivazione numero cell
+      description: Servizio per attivare numero cell
+      operationId: confermaAttivazioneMemoBolloSms
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - in: body
+          name: request
+          schema:
+            $ref: '#/definitions/RequestConfermaMemoBolloSms'
+          required: true
+      responses:
+        '200':
+          description: attivazione eseguita con successo
+          schema:
+            $ref: '#/definitions/EsitoOperazioneMemoBolloVO'
+        '400':
+          description: token di sicurezza non valido/scaduto
+        '404':
+          description: destinatario non trovato
+        '422':
+          description: Formato errato parametri
+  /memoBollo/sms/richiestaRevoca:
+    post:
+      tags:
+        - memo bollo
+      summary: Richiesta revoca numero cell
+      description: >-
+        Servizio che fa partire la richiesta per revocare numero cell di memo
+        bollo. Un sms con token di sicurezza verrà inviata all' utente
+        richiedente per confermare la decisione di revoca
+      operationId: richiestaRevocaMemoBolloSms
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - in: body
+          name: request
+          schema:
+            $ref: '#/definitions/RequestRichiestaMemoBolloSms'
+          required: true
+      responses:
+        '200':
+          description: richiesta revoca eseguita con successo
+          schema:
+            $ref: '#/definitions/EsitoOperazioneMemoBolloVO'
+        '400':
+          description: parametri obbligatori non valorizzati
+        '403':
+          description: codice fiscale non corrisponde al proprietario del veicolo
+        '404':
+          description: veicolo non trovato
+        '422':
+          description: formato errato parametri
+  /memoBollo/sms/revoca:
+    put:
+      tags:
+        - memo bollo
+      summary: Conferma revoca numero cell
+      description: servizio per revocare numero cell
+      operationId: confermaRevocaMemoBolloSms
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - in: body
+          name: request
+          schema:
+            $ref: '#/definitions/RequestConfermaMemoBolloSms'
+          required: true
+      responses:
+        '200':
+          description: revoca eseguita con successo
+          schema:
+            $ref: '#/definitions/EsitoOperazioneMemoBolloVO'
+        '400':
+          description: token di sicurezza non valido/scaduto
+        '404':
+          description: destinatario non trovato
+        '422':
+          description: Formato errato parametri
+  /verificaPratica/tipologia:
+    get:
+      tags:
+        - verifica pratica
+      summary: restituisce il tipo della pratica
+      description: >-
+        servizio per trovare il tipo della comunicazione a fronte del numero
+        protocollo e codice fiscale
+      operationId: getTipoComunicazione
+      consumes:
+        - application/json
+        - application/xml
+      produces:
+        - application/json
+        - application/xml
+      parameters:
+        - in: query
+          name: identificativo
+          type: string
+          required: true
+          description: numero di protocollo
+        - in: query
+          name: codiceFiscale
+          type: string
+          required: true
+          description: codice fiscale
+      responses:
+        '200':
+          description: OK
+          schema:
+            type: object
+            properties:
+              codice:
+                type: string
+                description: >-
+                  tipologia della pratica trovata. "OSSER"=Osservazione su
+                  Avviso di Scadenza; "RAR"=Domanda di Rateizzazione...
+                example: OSSER
+        '400':
+          description: pratica non della tipologia prevista
+        '404':
+          description: coppia identificativo/codice fiscale non trovati
+        '422':
+          description: Formato errato parametri
+  /verificaPratica/cercaOsservazione:
+    get:
+      tags:
+        - verifica pratica
+      summary: ricerca pratica di osservazione
+      description: >-
+        servizio di ricerca pratica per coppia codice identificativo/codice
+        fiscale
+      operationId: getDettaglioOsservazioneAvvisoScadenza
+      consumes:
+        - application/json
+        - application/xml
+      produces:
+        - application/json
+        - application/xml
+      parameters:
+        - in: query
+          name: identificativo
+          type: string
+          required: true
+          description: numero di protocollo
+        - in: query
+          name: codiceFiscale
+          type: string
+          required: true
+          description: codice fiscale
+      responses:
+        '200':
+          description: oggetto dettaglio
+          schema:
+            $ref: '#/definitions/OsservazioneVO'
+        '400':
+          description: pratica non esiste
+        '422':
+          description: Formato errato parametri
+  /verificaPratica/cercaRateizzazione:
+    get:
+      tags:
+        - verifica pratica
+      summary: ricerca dettaglio domanda rateizzazione
+      description: >-
+        servizio di ricerca domanda rateizzazione per coppia codice
+        identificativo/codice fiscale
+      operationId: getDettaglioDomandaRateizzazione
+      consumes:
+        - application/json
+        - application/xml
+      produces:
+        - application/json
+        - application/xml
+      parameters:
+        - in: query
+          name: identificativo
+          type: string
+          required: true
+          description: numero di protocollo
+        - in: query
+          name: codiceFiscale
+          type: string
+          required: true
+          description: codice fiscale
+      responses:
+        '200':
+          description: dettaglio domanda
+          schema:
+            $ref: '#/definitions/DomandaRateizzazioneVO'
+        '400':
+          description: pratica non esiste
+        '422':
+          description: Formato errato parametri
+  '/verificaPratica/allegato/{id}':
+    get:
+      tags:
+        - verifica pratica
+      summary: scarica allegato
+      description: restituisce array di byte per download allegato di una pratica
+      operationId: downloadAllegato
+      consumes:
+        - application/json
+        - application/xml
+      produces:
+        - application/octet-stream
+        - application/json
+      parameters:
+        - in: path
+          name: id
+          type: string
+          required: true
+          description: id documento
+        - in: query
+          name: identificativo
+          type: string
+          required: true
+          description: numero di protocollo
+        - in: query
+          name: codiceFiscale
+          type: string
+          required: true
+          description: codice fiscale
+      responses:
+        '200':
+          description: array di byte del file richiesto
+          schema:
+            type: string
+            format: bynary
+        '400':
+          description: pratica non della tipologia prevista
+        '404':
+          description: coppia identificativo/codice fiscale non trovati
+        '422':
+          description: Formato errato parametri
+  /verificaPratica/modificaOsservazione:
+    post:
+      tags:
+        - verifica pratica
+      summary: modifica dati registrati osservazione
+      description: >-
+        modifica email/numero di telefono ai quali l' utente vuole ricevere
+        notifiche
+      operationId: aggiornaRiferimentiOsservazione
+      consumes:
+        - application/json
+        - application/xml
+      produces:
+        - application/json
+        - application/xml
+      parameters:
+        - in: body
+          name: request
+          schema:
+            $ref: '#/definitions/RequestModificaRiferimentiOsservazione'
+          required: true
+      responses:
+        '200':
+          description: aggiornamento eseguito
+        '422':
+          description: Formato errato parametri
+        '500':
+          description: errore durante aggiornamento dati
+  /verificaPratica/modificaDomandaRateizzazione:
+    post:
+      tags:
+        - verifica pratica
+      summary: modifica dati registrati domanda rateizzazione
+      description: >-
+        modifica email/numero di telefono ai quali l' utente vuole ricevere
+        notifiche per domanda rateizzazione
+      operationId: aggiornaRiferimentiDomandaRateizzazione
+      consumes:
+        - application/json
+        - application/xml
+      produces:
+        - application/json
+        - application/xml
+      parameters:
+        - in: body
+          name: request
+          schema:
+            $ref: '#/definitions/RequestModificaRiferimentiRateizzazione'
+          required: true
+      responses:
+        '200':
+          description: aggiornamento eseguito
+        '422':
+          description: Formato errato parametri
+        '500':
+          description: errore durante aggiornamento dati
+  /visura:
+    get:
+      tags:
+        - visura
+      summary: Calcolo visura
+      description: Calcolo visura semplice
+      operationId: visuraSemplice
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - in: query
+          name: tipoVeicolo
+          type: string
+          description: codice tipo veicolo
+          required: true
+        - in: query
+          name: targa
+          type: string
+          description: targa veicolo
+          required: true
+        - in: query
+          name: codiceFiscale
+          type: string
+          description: codice fiscale
+          required: true
+      responses:
+        200:
+          description: Calcolo eseguito con successo
+          schema:
+            $ref: '#/definitions/EstrattoContoVO'
+        400:
+          description: parametri obbligatori non valorizzati
+        404:
+          description: veicolo non trovato
+        412:
+          description: proprietario non trovato
+        422:
+          description: errore formato dati
+definitions:
+  AccertamentoVO:
+    type: object
+    properties:
+      anno:
+        type: integer
+        format: int32
+        example: 2018
+      protocollo:
+        type: string
+        description: numero protocollo dell' accertamento
+        example: 00414010BT210CS
+      codiceFiscale:
+        type: string
+        example: PZZNTN64H26L750W
+        description: codice fiscale del contribuente
+      cognome:
+        type: string
+        description: cognome del contribuente se persona fisica
+        example: rossi
+      dataNotifica:
+        type: string
+        format: date
+        description: data di notificazione dell'avviso di accertamento
+        example: "2019-02-28"
+      denominazione:
+        description: denominazione del contribuente se persona giuridica
+        type: string
+        example: "XYZ s.r.l."
+      idPratica:
+        type: integer
+        description: identificativo della pratica di accertamento
+        format: int64
+        example: 21846865
+#     interesse:
+#      type: number
+#       description: interessi dovuti presenti sull'avviso di accertamento
+#       format: double
+#       example: 208.44
+      nome:
+        type: string
+        description: nome del contribuente se persona fisica
+        example: mario
+      totale:
+        type: number
+        description: totale dovuto presente sull'avviso di accertamento
+        format: double
+        example: 541.25
+  Alimentazione:
+    type: object
+    properties:
+      codice:
+        type: string
+        description: codice del tipo di alimentazione
+        example: ME
+      descrizione:
+        type: string
+        description: descrizione del tipo di alimentazione
+        example: METANO
+  AllegatoVO:
+    type: object
+    properties:
+      identificativoArchivio:
+        type: string
+        description: identificativo archiviazione per STADOC/INDEX
+        example: '218959'
+      nomeAllegato:
+        type: string
+        description: >-
+          nome dell'allegato inserito dal contribuente per completare la
+          domanda/osservazione
+        example: GME-CDU-08-V02- Inserisci Oss Acc Senza autenticazione.docx
+      nomeLogico:
+        type: string
+        example: GME-CDU-08-V02- Inserisci Oss Acc Senza autenticazione.docx
+  AvvisoScadenzaVO:
+    type: object
+    properties:
+      intestatario:
+        $ref: '#/definitions/IntestatarioVO'
+      idPratica:
+        type: integer
+        description: >-
+          identificativo della pratica di tipo avviso di scadenza
+          TAU_T_PRATICA.ID_PRATICA
+        format: int64
+      idScadenzaVeicolo:
+        type: integer
+        description: identificativo chiave su TAU_T_AVVISO_SCADENZA_VEICOLO
+        format: int64
+        example: 24271773
+      idScadenzaPersona:
+        type: integer
+        description: identificativo chiave su TAU_T_AVVISO_SCADENZA_PERSONA
+        format: int64
+        example: 22843446
+      tassa:
+        type: number
+        description: importo tassa dovuta su avviso di scadenza
+        format: double
+        example: 47.19
+      numeroRiferimento:
+        type: string
+        description: >-
+          numero di protocollo di tassa auto. Presente su
+          TAU_T_AVVISO_SCADENZA_PERSONA.NUMERO_PROTOCOLLO. Da non confondere con
+          il numero di protocollo staccato da ACTA.
+        example: '201707000000008'
+      scadenza:
+        description: scadenza del tributo rappresentato dal mese e anno
+        type: string
+        example: 04/2017
+      targa:
+        type: string
+        description: targa del veicolo collegato all'avviso di scadenza
+        example: DB658BH
+      tipoVeicolo:
+        $ref: '#/definitions/TipoVeicolo'
+      ultimoGiornoUtile:
+        type: string
+        description: ultimo giorno utile per effettuare il pagamento
+        example: '2017-08-31'
+      validita:
+        type: integer
+        description: 'validità del bollo , della tassa: annuale, quadrimestrale'
+        example: 12 o 4
+        format: int32
+  BancaVO:
+    type: object
+    properties:
+      codice:
+        type: string
+        description: >-
+          codice del prestatore del servizio con il quale si è effettuato il
+          pagamento
+        example: BCITITMM
+      descrizione:
+        type: string
+        description: >-
+          descrizione del prestatore del servizio con il quale si è effettuato
+          il pagamento
+        example: Intesa Sanpaolo
+  CarrelloVO:
+    type: object
+    properties:
+      codiceFiscale:
+        type: string
+        example: PZZNTN64H26L750W
+        description: codice fiscale proprietario del veicolo
+      identificativoPagamento:
+        type: string
+        description: >-
+          staccato da tassa auto
+          RIS_T_TRANSAZIONE_PAGAMENTO.IDENTIFICATIVO_PAGAMENTO
+        example: '201503270000001885043713'
+      tipoVeicolo:
+        type: string
+        description: Codice tipo veicolo
+        example: A
+      targa:
+        type: string
+        description: La targa del veicolo
+        example: BV534HA
+      esplicativo:
+        type: string
+        description: Esplicativo utilizzato per calcolo tassa
+        example: Pot Kw 14 E1
+      scadenza:
+        type: string
+        description: 'La scadenza della tassa automobilistica, del tributo.'
+        example: 01/2019
+      validita:
+        type: integer
+        format: int32
+        example: 12
+        description: mesi validità del tributo
+      totale:
+        type: number
+        format: double
+        description: 'importo totale dovuto, calcolato sommando tassa, sanzione e interessi'
+        example: 261.09
+      tassa:
+        type: number
+        format: double
+        description: tassa automobilistica dovuta
+        example: 251.16
+      sanzione:
+        type: number
+        format: double
+        description: sanzioni da corrispondere per il mancato pagamento
+        example: 9.42
+      interesse:
+        type: number
+        format: double
+        description: interessi da corrispondere per mancato pagamento
+        example: 0.51
+      proprietario:
+        $ref: '#/definitions/ProprietarioVO'
+  CategoriaEuro:
+    type: object
+    properties:
+      codice:
+        type: string
+        description: codice della categoria EURO
+        example: E1
+      descrizione:
+        type: string
+        description: descrizione della categoria EURO
+        example: EURO 1
+  DatiCalcoloVO:
+    type: object
+    properties:
+      codiceFiscale:
+        type: string
+        example: SBCCST76M66F335L
+        description: Codice fiscale
+      creditoDisponibile:
+        type: number
+        format: double
+      dirittoFisso:
+        type: number
+        format: double
+      esplicativo:
+        type: string
+        example: IMPORTO FISSO ANNUO
+      esito:
+        type: string
+      identificativoPagamento:
+        type: string
+        example: '201902060000002785102613'
+        description: >-
+          staccato da tassa auto
+          RIS_T_TRANSAZIONE_PAGAMENTO.IDENTIFICATIVO_PAGAMENTO
+      interesse:
+        type: number
+        format: double
+        description: interesse
+      percentualeRiduzione:
+        type: string
+        example: '0'
+      proprietario:
+        $ref: '#/definitions/ProprietarioVO'
+      sanzionamento:
+        type: string
+      sanzione:
+        type: number
+        format: double
+        example: 0
+        description: sanzione
+      scadenza:
+        type: string
+        example: 12/2019
+        description: scadenza
+      targa:
+        type: string
+        example: '77778888'
+        description: targa veicolo
+      tassa:
+        type: number
+        format: double
+        example: '20,00'
+      tipoVeicolo:
+        $ref: '#/definitions/TipoVeicolo'
+      totaleDovuto:
+        type: number
+        format: double
+        example: '20,00'
+      totaleDaVersare:
+        type: number
+        format: double
+      totaleDovutoComp:
+        type: number
+        format: double
+      tipoRiduzione:
+        type: string
+        example: NN
+      ultimoGiornoUtile:
+        type: string
+        example: 31/01/2019
+        description: ultimo giorno utile pagamento
+      validita:
+        type: string
+        example: 12
+        description: mesi validità
+  DecodificaVO:
+    type: object
+    properties:
+      codice:
+        type: string
+      descrizione:
+        type: string
+  ErroreCalcoloVO:
+    type: object
+    properties:
+      codice:
+        type: string
+      descrizione:
+        type: string
+  EsitoCalcoloBolloVO:
+    type: object
+    required:
+      - codiceFiscale
+      - esplicativo
+      - interesse
+      - sanzione
+      - scadenza
+      - ultimoGiornoUtile
+      - targa
+      - tassa
+      - tipoVeicolo
+      - totale
+    properties:
+      codiceFiscale:
+        type: string
+        description: codice fiscale
+      tipoVeicolo:
+        $ref: '#/definitions/TipoVeicolo'
+      targa:
+        type: string
+        description: La targa del veicolo
+        example: BV534HA
+      esplicativo:
+        type: string
+        description: Esplicativo utilizzato per calcolo tassa
+        example: Pot Kw 14 E1
+      scadenza:
+        type: string
+        description: La scadenza della tassa automobilistica
+        example: GENNAIO 2019
+      ultimoGiornoUtile:
+        type: string
+        description: >-
+          La data entro la quale si deve pagare la tassa automobilistica per non
+          incorrere nel sanzionamento
+        example: 31/01/2019
+      validita:
+        type: integer
+        format: int32
+        example: 12
+        description: mesi validità della tassa
+      totale:
+        type: number
+        format: double
+        description: 'totale dovuto calcolato sommando tassa, sanzioni e interessi'
+        example: '261,09'
+      tassa:
+        type: number
+        format: double
+        description: tassa automobilistica dovuta
+        example: '251,16'
+      sanzione:
+        type: number
+        format: double
+        description: sanzioni dovute per ritardato pagamento
+        example: '9,42'
+      interesse:
+        type: number
+        format: double
+        description: interessi dovuti per ritardato pagamento
+        example: '0,51'
+  EsitoCalcoloPagamentoVO:
+    type: object
+    required:
+      - codiceFiscale
+      - esplicativo
+      - identificativoPagamento
+      - interesse
+      - sanzione
+      - scadenza
+      - ultimoGiornoUtile
+      - targa
+      - tassa
+      - tipoVeicolo
+      - totale
+      - validita
+    properties:
+      codiceFiscale:
+        type: string
+        description: codice fiscale proprietario
+      tipoVeicolo:
+        $ref: '#/definitions/TipoVeicolo'
+      targa:
+        type: string
+        description: La targa del veicolo
+        example: BV534HA
+      esplicativo:
+        type: string
+        description: Esplicativo utilizzato per calcolo tassa
+        example: Pot Kw 14 E1
+      identificativoPagamento:
+        description: >-
+          staccato da tassa auto
+          RIS_T_TRANSAZIONE_PAGAMENTO.IDENTIFICATIVO_PAGAMENTO
+        type: string
+        example: '201812070000002785072013'
+      scadenza:
+        type: string
+        description: La scadenza della tassa automobilistica
+        example: 01/2019
+      ultimoGiornoUtile:
+        type: string
+        description: ultimo giorno utile di pagamento per non incorrere in sanzionamento
+        example: 31/01/2019
+      validita:
+        type: integer
+        format: int32
+        example: 12
+        description: mesi validità della tassa
+      totale:
+        type: number
+        format: double
+        description: 'totale dovuto calcolato sommando tassa, sanzioni e interessi'
+        example: 261.09
+      tassa:
+        type: number
+        format: double
+        description: tassa automobilistica dovuta
+        example: 251.16
+      sanzione:
+        type: number
+        format: double
+        description: sanzioni dovute per pagamento tardivo
+        example: 9.42
+      interesse:
+        type: number
+        format: double
+        description: interessi dovuti per pagamento tardivo
+        example: 0.51
+  EsitoVerificaVO:
+    type: object
+    description: esito servizio di verifica Info Bollo
+    properties:
+      esito:
+        type: string
+        description: OK o KO
+        example: OK
+      dataAttivazione:
+        type: string
+        format: date
+        description: >-
+          data di attivazione servizio; valorizzato solo per esito 'OK' e la
+          mail in input risulta già attivata
+        example: '2018-05-24'
+      destinatario:
+        type: string
+        description: indirizzo destinatario; stesso valore dell' indirizzo presente input
+        example: mario.rossi@csi.it/30012345678
+  EsitoOperazioneInfoBolloVO:
+    type: object
+    description: esito operazioni di attivazione/revoca su info bollo
+    properties:
+      esito:
+        type: string
+        example: OK
+      destinatario:
+        type: string
+        description: contiene indirizzo mail o numero di telefono
+        example: mario.rossi@csi.it/30012345678
+  EsitoOperazioneMemoBolloVO:
+    type: object
+    description: esito operazione di attivazione/revoca su memo bollo
+    properties:
+      esito:
+        type: string
+        description: codice esito
+        example: OK
+      destinatario:
+        type: string
+        description: contiene indirizzo mail o numero di telefono
+        example: '''mario.rossi@csi.it''/''30012345678'''
+  EstrattoContoVO:
+    type: object
+    description: Estratto conto veicolo
+    properties:
+      anno:
+        type: integer
+        format: int32
+        example: 2019
+      codiceFiscale:
+        type: string
+        example: "FNTNDR73B22L219M"
+        description: "Codice fiscale proprietario veicolo"
+      numeroProtocollo:
+        type: string
+        description: "Numero della pratica di accertamento esistente"
+      statoBollo:
+        type: string
+        description: >- 
+          Lo stato scadenza può assumere i valori:
+            –  REGOLARE
+            –  IRREGOLARE
+            –  RATEIZZATO
+            –  INGIUNZIONE
+            –  nullo se non si riesce ad assegnare
+            –  SOSPESO
+        example: "IRREGOLARE"
+      facoltaPagamentoQuadrimestrale: 
+        type: integer
+        description: >-
+          Indica se il veicolo per quell'annualità aveva la facoltà di pagare quadrimestralmente. Può assumere i seguenti valori: 
+          - 1 = il veicolo può pagare quadrimestralmente
+          - 0 = il veicolo paga annualmente
+      segnalazione:
+        type: string
+        description: >-
+          In alcuni casi descritti nei casi d'uso relativi allo specifico fruitore, potrebbero essere restituite delle segnalazioni
+      presenzaUlterioriEventi:
+        type: integer
+        description: >-
+          Indica se per il veicolo sono presenti ulteriori eventi da tenere in considerazione ( es. radiazioni , agevolazioni ). Può assumere i seguenti valori :
+          - 0 = nessun'altro evento da considerare
+          - 1 = sono presenti altri eventi
+      scadenza:
+        type: string
+        example: 'GENNAIO'
+      validita:
+        type: integer
+        format: int32
+        example: 12
+      dataScadenza:
+        type: string
+        example: "2020-01"
+      ultimoGiornoUtilePagamento:
+        type: string
+        format: date
+        example: "2019-02-28"
+        description: "Ultimo giorno utile di pagamento (con eventuali proroghe)"
+      ultimoGiornoUtileVerifica:
+        type: string
+        format: date
+        example: "2019-02-28"
+        description: "Ultimo giorno utile per la verifica dei dati"
+      tassa:
+        type: number
+        format: double
+        example: 47.19
+        description: "Tassa dovuta"
+      sanzioni:
+        type: number
+        format: double
+        example: 0.79
+        description: "Sanzioni dovute"
+      interessi:
+        type: number
+        format: double
+        example: 0.05
+        description: "Interessi dovuti"
+      totale:
+        type: number
+        format: double
+        example: 48.03
+        description: "Somma di tassa, sanzioni e interessi"
+      versati:
+        type: number
+        format: double
+        example: 0
+        description: "Somma del totale versato per pagamenti con scadenza uguale a quella calcolata nell'anno di tributo"
+  GrigliaVO:
+    type: object
+    properties:
+      datiVeicoloRettifica:
+        type: object
+        description: >-
+          I dati indicati non corrispondono a quelli della carta di circolazione
+          del veicolo, i dati corretti sono
+        properties:
+          value:
+            type: boolean
+            example: true
+          kw:
+            type: string
+            example: '63'
+          targa:
+            type: string
+            example: CD303TH
+          tipoVeicolo:
+            $ref: '#/definitions/TipoVeicolo'
+          catEuro:
+            $ref: '#/definitions/CategoriaEuro'
+          alimentazione:
+            $ref: '#/definitions/Alimentazione'
+          peso:
+            type: string
+            description: peso del veicolo
+            example: 1550
+          numPosti:
+            type: string
+            description: numero posti del veicolo
+            example: 5
+          sp:
+            type: boolean
+            description: sospensione pneumatica
+            example: true
+          rimorchio:
+            type: boolean
+            description: indica la rimorchiabilità del rimorchio
+            example: true
+          portata:
+            type: string
+            description: indica la portata del veicolo
+          assi:
+            type: string
+            description: indica il numero degli assi
+            example: 2
+          imp:
+            type: boolean
+            description: installazione impianto a gas
+            example: true
+          emissCo2:
+            type: string
+            description: emissione di Co2 di grammi al Km
+      datiAnagraficiRettifica:
+        type: object
+        description: 'Segnalo le seguenti rettifiche da apportare ai dati anagrafici:'
+        properties:
+          value:
+            type: boolean
+            example: true
+          codiceFiscale:
+            type: string
+            description: >-
+              Campo utilizzato per rettificare il codice fiscale del
+              contribuente
+          cognomeDenominazione:
+            type: string
+            description: >-
+              Campo utilizzato per rettificare il cognome/denominazione del
+              contribuente
+          nome:
+            type: string
+            description: Campo utilizzato per rettificare il nome del contribuente
+          domicilioFiscale:
+            type: string
+            description: Campo utilizzato per rettificare il comune del domicilio fiscale
+          indirizzo:
+            type: string
+            description: Campo utilizzato per rettificare l'indirizzo
+          email:
+            type: string
+            description: Campo utilizzato per rettificare l'email
+            example: nuova.mail@csi.it
+          cell:
+            type: string
+            description: Campo utilizzato per rettificare il numero di cellulare
+      isNotIntestatario:
+        type: object
+        description: >-
+          Non sono o non sono mai stato/stata intestatario/intestataria del
+          veicolo indicato
+        properties:
+          value:
+            type: boolean
+            example: true
+      venduto:
+        type: object
+        description: Ho venduto il veicolo
+        properties:
+          data:
+            type: string
+            format: date
+            example: '2016-07-15'
+            description: data della vendita
+          concessionario:
+            type: boolean
+            example: false
+            description: indica se il Cittadino ha venduto ad un concessionario
+          value:
+            type: boolean
+      radiato:
+        type: object
+        description: Il veicolo è stato radiato per definitiva esportazione
+        properties:
+          data:
+            type: string
+            format: date
+            example: '2014-06-01'
+            description: data della radiazione
+          value:
+            type: boolean
+      disponibilitaPrivata:
+        type: object
+        description: Sono stato/stata privato/privata della disponibilita' del veicolo
+        properties:
+          value:
+            type: boolean
+            example: true
+          dal:
+            type: string
+            format: date
+            example: '2019-01-01'
+            description: >-
+              data a partire dalla quale il Cittadino è stato privato della
+              disponibilità del veicolo
+          al:
+            type: string
+            format: date
+            example: '2019-12-31'
+            description: data fine di privazione della disponibiltà del veicolo
+      esenzioni:
+        type: object
+        properties:
+          value:
+            type: boolean
+            description: Il veicolo è esente dal pagamento perchè
+          disabili:
+            type: object
+            description: >-
+              Ho ottenuto l'esenzione prevista per le persone disabili con
+              provvedimento prot. n.
+            properties:
+              value:
+                type: boolean
+              del:
+                type: string
+                format: date
+                example: '2019-01-01'
+                description: data del provvedimento
+              protocollo:
+                type: string
+                example: '2154784'
+                description: numero protocollo del provvedimento
+          impiantoGplMetano:
+            type: object
+            description: >-
+              Ho installato l'impianto GPL/metano collaudato in data (allegare
+              copia della carta di circolazione con omologa)
+            properties:
+              value:
+                type: boolean
+              data:
+                type: string
+                format: date
+                example: '2019-01-01'
+                description: data di collaudo dell'impianto a gas
+          altroMotivo:
+            type: object
+            description: Altri motivi di esenzione (specificare)
+            properties:
+              value:
+                type: boolean
+              testo:
+                type: string
+                example: random words
+      trasferimentoRegione:
+        type: object
+        description: Mi sono trasferito/a in un'altra regione
+        properties:
+          value:
+            type: boolean
+          data:
+            type: string
+            format: date
+            example: '2019-01-01'
+            description: data del trasferimento
+      radiatoDemolizione:
+        type: object
+        description: Il veicolo è stato radiato per demolizione
+        properties:
+          value:
+            type: boolean
+          data:
+            type: string
+            format: date
+            example: '2019-01-01'
+            description: data della demolizione
+      motivoGenerico:
+        type: object
+        description: Altro motivo generico
+        properties:
+          value:
+            type: boolean
+          testo:
+            type: string
+            example: '2019-01-01'
+            description: data dell'altro motivo generico
+      dataCompilazione:
+        type: string
+        description: Data compilazione
+        format: date
+        example: '2019-07-15'
+  ImportoRateVO:
+    type: object
+    properties:
+      numeroFascia:
+        type: integer
+        format: int32
+        example: 1
+        description: >-
+          identificativo della fascia nella quale ricade la domanda di
+          rateizzazione
+      importoDa:
+        type: number
+        format: double
+        description: importo da della fascia nella quale ricade la domanda di rateizzazione
+        example: 280.01
+      importoA:
+        type: number
+        format: double
+        description: importo a della fascia nella quale ricade la domanda di rateizzazione
+        example: 600
+      numeroRate:
+        type: integer
+        format: int32
+        example: 10
+        description: numero rate previste dalla fascia nella quale ricade la domanda
+#     rangeImporto:
+#       description: importo della domanda
+#       type: string
+#     rate:
+#       description: rate richieste
+#       type: string
+  IntestatarioVO:
+    type: object
+    properties:
+      altro:
+        type: string
+      cap:
+        type: string
+        example: '10155'
+        description: cap dell'intestatario del veicolo
+      codiceFiscale:
+        type: string
+        example: TRRNNT50S68C983X
+        description: codice fiscale dell'intestatario del veicolo
+      cognome:
+        type: string
+        example: TARRICONE
+        description: cognome se PF dell'intestatario del veicolo
+      comuneProvCap:
+        type: string
+        description: comune provincia cap dell'intestatario del veicolo
+      denominazione:
+        type: string
+        description: denominazione se PG dell'intestatario del veicolo
+      descComune:
+        type: string
+        example: TORINO
+        description: comune dell'intestatario del veicolo
+      email:
+        type: string
+        description: email dell'intestatario del veicolo
+        example: mario.rossi@csi.it
+      indirizzo:
+        type: string
+        example: VIA GIOVANNI POGGIO 9
+        description: indirizzo dell'intestatario del veicolo
+      indirizzoCompleto:
+        type: string
+        example: TORINO / 10155 / TO
+        description: comune cap e provincia dell'intestatario del veicolo
+      nome:
+        type: string
+        example: ANTONIETTA
+        description: nome dell'intestatario del veicolo
+      provincia:
+        type: string
+        example: TO
+        description: provincia dell'intestatario del veicolo
+      telefono:
+        description: telefono dell'intestatario del veicolo
+        type: string
+        example: 30012345678
+  OsservazioneVO:
+    type: object
+    description: dettagli osservazione
+    properties:
+      attributi:
+        $ref: '#/definitions/GrigliaVO'
+      allegati:
+        type: array
+        items:
+          $ref: '#/definitions/AllegatoVO'
+      avvisoScadenza:
+        $ref: '#/definitions/AvvisoScadenzaVO'
+      email:
+        type: string
+        example: mario.rossi@csi.it
+        description: indirizzo email del contribuente
+      idComunicazione:
+        type: integer
+        format: int64
+        description: ID_COMUNICAZIONE dell'osservazione. Tavola TAU_T_COMUNICAZIONE
+        example: 50031936
+      numeroProtocollo:
+        type: string
+        description: >-
+          numero protocollo; è l' identificativo della protocollazione ACTA.
+          TAU_T_COMUNICAZIONE.IDENTIFICATIVO_PROTOCOLLAZIONE
+      identificativoArchivio:
+        type: string
+        example: '218959'
+        description: identificativo archivio stadoc
+      idPratica:
+        type: integer
+        format: int64
+        description: ID_PRATCA dell'avviso di scadenza
+      stato:
+        $ref: '#/definitions/StatoPraticaVO'
+      statoLavorazione:
+        $ref: '#/definitions/StatoPraticaVO'
+      telefono:
+        type: string
+  ParametroScadenzaVO:
+    type: object
+    properties:
+      valore:
+        type: integer
+        format: int32
+      nome:
+        type: string
+  ProprietarioVO:
+    type: object
+    description: Proprietario veicolo
+    properties:
+      tipologia:
+        type: string
+        example: PF
+        description: tipologia proprietario; persona fisica o giuridica
+      denominazione:
+        type: string
+        example: Mario Rossi
+        description: nome e cognome proprietario
+  DomandaRateizzazioneVO:
+    type: object
+    description: pratica rateizzazione
+    properties:
+      accertamenti:
+        type: array
+        items:
+          $ref: '#/definitions/AccertamentoVO'
+      allegati:
+        type: array
+        items:
+          $ref: '#/definitions/AllegatoVO'
+      #cfSoggetto:
+      #  type: string
+      #  description: >-
+      #    codice fiscale del soggetto che ha presentato la domanda di
+      #    rateizzazione
+      dataCompilazione:
+        type: string
+        description: data compilazione della domanda
+        format: date
+        example: '2019-02-10'
+      diffEconomiche:
+        type: boolean
+        description: >-
+          flag che il Cittadino può selezionare per dichiarare di avere
+          particolari difficoltà economiche
+      #fonteComunicazione:
+      #  type: string
+      #  description: da dove arriva la domanda
+      #  example: 'agenzia, back office, cittadino'
+      email:
+        type: string
+        description: email del Contribuente che ha inserito la domanda
+      idArchiviazione:
+        type: string
+        example: 218795
+        description: identificativo archiviazione ACTA
+      idComunicazione:
+        type: integer
+        format: int64
+        description: ID_COMUNICAZIONE su TAU_T_COMUNICAZIONE
+        example: 50031936
+#     idMsgCemi:
+#       type: string
+#       description: id di aggancio al mondo CEMI di TAU se la domanda è arrivata CEMI
+#     identificativoUtente:
+#       type: string
+#       description: identificativo di chi ha inserito la domanda
+      note:
+        type: string
+        description: compo note della lavorazione
+      numeroRate:
+        $ref: '#/definitions/ImportoRateVO'
+#     nuovaRateizzazione:
+#       type: string
+      numeroProtocollo:
+        type: string
+        description: >-
+          numero protocollo; è l' identificativo della protocollazione ACTA.
+          TAU_T_COMUNICAZIONE.IDENTIFICATIVO_PROTOCOLLAZIONE
+        example: 00000208/2019
+#     riferimentoPiano:
+#       type: string
+#       description: 'numero di riferimento del piano, identificativo del piano'
+      statoComunicazione:
+        $ref: '#/definitions/StatoPraticaVO'
+      statoLavorazione:
+        $ref: '#/definitions/StatoPraticaVO'
+      soggetto:
+        $ref: '#/definitions/SoggettoRateizzazioneVO'
+#     tipoAccesso:
+#       type: string
+      telefono:
+        type: string
+        description: numero di cellulare del Contribuente
+      totaleDaRateizzare:
+        type: number
+        format: double
+        description: importo totale da rateizzare
+  RiepilogoTransazionePagamentoVO:
+    type: object
+    description: >-
+      contiene il risultato della ricerca della ricevuta per IUV. In caso di
+      tipologia S, la proprietà ricevutaSingola viene popolato con i dati
+      dell'unica transazione di pagamento; se tipologia cumulativa C, viene
+      restituita la proprietò ricevutaCumulativa valorizzata con la lista di
+      transazioni in aggiunta al riepilogo totale della ricevuta
+    properties:
+      tipologia:
+        type: string
+        description: >-
+          indica se IUV corrisponde a pagamento singolo o cumulativo; popolato
+          rispettivamente con valore S o C
+        example: S
+      ricevutaSingola:
+        $ref: '#/definitions/RicevutaVO'
+      ricevutaCumulativa:
+        $ref: '#/definitions/RicevutaCumulativaVO'
+    xml:
+      name: RiepilogoTransazionePagamentoVO
+  RicevutaCumulativaVO:
+    type: object
+    description: >-
+      Oggetto con la lista di tutti i pagamenti della ricevuta cumulativa e il
+      riepilogo che raccoglie i dati comuni del pagamento
+    properties:
+      riepilogo:
+        $ref: '#/definitions/RicevutaVO'
+      listaRicevute:
+        type: array
+        description: Lista di tutte le transazioni della ricevuta di tipo cumulativa
+        items:
+          $ref: '#/definitions/RicevutaVO'
+  RicevutaVO:
+    type: object
+    description: Oggetto che descrive una transazione di pagamento singola
+    properties:
+      banca:
+        $ref: '#/definitions/BancaVO'
+      dataOraPagamento:
+        type: string
+        example: '06/02/2019 0:00'
+      email:
+        type: string
+        example: mario.rossi@csi.it
+      esitoPagamento:
+        type: string
+      datiCalcolo:
+        $ref: '#/definitions/DatiCalcoloVO'
+      identificativoCarrello:
+        type: string
+        example: '201902060000861'
+      identificativoPagamento:
+        description: >-
+          staccato da tassa auto
+          RIS_T_TRANSAZIONE_PAGAMENTO.IDENTIFICATIVO_PAGAMENTO
+        type: string
+      identificativoTransazione:
+        type: string
+        example: TST000000000047555
+      idRiscossione:
+        type: string
+        example: 15317425430420146000
+      idStatoTransazione:
+        type: integer
+        format: int64
+        example: 4
+      importo:
+        type: number
+        format: double
+        example: 60
+      iuv:
+        type: string
+        example: RF34190370003T00200000001
+        description: Identificativo univoco pagamento
+      percCommissione:
+        type: number
+        format: double
+        example: '0.0'
+      regione:
+        type: string
+        example: Piemonte
+      speseCommissione:
+        type: number
+        format: double
+        example: '0.0'
+      transazioneMDP:
+        type: boolean
+        example: false
+    xml:
+      name: RicevutaVO
+  SoggettoRateizzazioneVO:
+    type: object
+    properties:
+      cap:
+        type: string
+        example: 13100
+        description: cap dell'indirizzo del contribuente
+      codiceFiscale:
+        type: string
+        example: PZZNTN64H26L750W
+        description: codice fiscale del contribuente
+#      codiceFiscaleLegale:
+#        type: string
+#        description: codice fiscale del legale rappresentante
+      cognome:
+        type: string
+        example: APUZZO
+        description: cognome del contribuente
+      comuneDiNascita:
+        type: string
+        example: VERCELLI (VC)
+        description: comune di nascita del contribuente
+      comuneDomicilio:
+        type: string
+        example: VERCELLI (VC)
+        description: comune di domicilio del contribuente
+      dataDiNascita:
+        type: string
+        example: 26/06/1964
+        description: data di nascita del contribuente
+      denominazione:
+        type: string
+        description: denominazione del contribuente se PG
+      email:
+        type: string
+        description: indirizzo email  del contribuente
+      indirizzo:
+        type: string
+        example: VIA MONVISO 49
+        description: indirizzo del contribuente
+      indirizzoPresso:
+        type: string
+        description: campo presso da aggiungere all'indirizzo  del contribuente
+      nome:
+        type: string
+        example: ANTONIO
+        description: codice fiscale del contribuente
+      personaFisica:
+        type: boolean
+        example: true
+        description: boolean che indica se il soggetto è una persona fisica
+      piva:
+        type: string
+        description: partita iva del contribuente
+      provinciaDiNascita:
+        type: string
+        description: provincia di nascita del contribuente
+        example: VC
+      provinciaDomicilio:
+        type: string
+        example: VC
+        description: provincia del comune di domicilio del contribuente
+      sesso:
+        type: string
+        example: M
+        description: genere del contribuente
+      telefono:
+        type: string
+        description: numero di telefono del contribuente
+  StatoPraticaVO:
+    type: object
+    properties:
+      id:
+        type: integer
+        description: valorizzato per stato pratica/stato lavorazione
+        format: int64
+        example: '''1'' o null'
+      codice:
+        type: string
+        description: valorizzato per stato comunicazione
+        example: '''RICEVUTA'' o null'
+      descrizione:
+        type: string
+        example: '''Ricevuta'' o ''Protocollata'''
+      data:
+        type: string
+        example: '''22/02/2019'' o null'
+      note:
+        type: string
+  TipoVeicolo:
+    type: object
+    description: Tipologia veicolo
+    required:
+      - codice
+      - descrizione
+    properties:
+      codice:
+        type: string
+        description: codice tipo veicolo
+        example: 'A=autoveicolo, M=motoveicolo'
+      descrizione:
+        type: string
+        description: la descrizione della tipologia veicolo
+        example: 'AUTOVEICOLO, MOTOVEICOLO, .....'
+    xml:
+      name: TipoVeicolo
+  TransazionePagamentoVO:
+    type: object
+    description: Riepilogo Transazione Pagamento
+    properties:
+      identificativoTransazione:
+        type: string
+        description: identificativo transazione; stesso valore del parametro in input
+        example: TST000000000027548
+      importo:
+        type: number
+        format: double
+        example: 608.56
+      iuv:
+        type: string
+        description: identificativo univoco di pagamento
+        example: RF341603300030T0400000001
+      email:
+        type: string
+        description: >-
+          indirizzo email confermato dall' utente a cui sarà inviata la conferma
+          del pagamento
+        example: mario.rossi@csi.it
+  RequestCreaOsservazioneAvvisoScadenza:
+    type: object
+    properties:
+      idScadenzaVeicolo:
+        type: integer
+        description: identificativo chiave su TAU_T_AVVISO_SCADENZA_VEICOLO
+        format: int64
+        example: 24271773
+      allegati:
+        type: array
+        items:
+          $ref: '#/definitions/AllegatoVO'
+      attributi:
+        $ref: '#/definitions/GrigliaVO'
+      email:
+        type: string
+        description: indirizzo email
+        example: mario.rossi@csi.it
+      cell:
+        type: string
+        description: numero cellulare
+        example: 33312345678
+  RequestModificaRiferimentiOsservazione:
+    type: object
+    required:
+      - idComunicazione
+      - codiceFiscale
+      - numeroIdentificativo
+      - targa
+      - statoOsservazione
+      - tipoVeicolo
+    properties:
+      emailPrecedente:
+        type: string
+        description: indirizzo email che s'intende modificare
+      email:
+        type: string
+        description: nuovo indirizzo email
+      cellularePrecedente:
+        type: string
+        description: numero cellulare che s'intende modificare
+      cellulare:
+        type: string
+        description: nuovo numero cellulare
+      codiceFiscale:
+        type: string
+        description: codice fiscale del contribuente
+      idComunicazione:
+        type: integer
+        format: int64
+        example: 50031936
+        description: ID_COMUNICAZIONE DI TAU_T_COMUNICAZIONE
+      numeroIdentificativo:
+        type: string
+        description: numero protocollo TAU dell'avviso di scadenza
+      targa:
+        type: string
+        example: DK516FV
+        description: targa dell'avviso di scadenza
+      statoOsservazione:
+        type: string
+        description: stato dell'osservazione presentata su avviso di scadenza
+      tipoVeicolo:
+        type: string
+        example: Automobile
+        description: tipo veicolo della targa dell'avviso di scadenza
+  RequestModificaRiferimentiRateizzazione:
+    type: object
+    required:
+      - idComunicazione
+      - codiceFiscale
+      - protocollo
+    properties:
+      email:
+        type: string
+        description: nuova email
+      emailPrecedente:
+        type: string
+        description: email da modificare
+      cellulare:
+        type: string
+        description: nuovo numero di cellulare
+      cellularePrecedente:
+        type: string
+        description: cellulare da modificare
+      codiceFiscale:
+        type: string
+        description: codice fiscale del contribuente
+      idComunicazione:
+        type: integer
+        format: int64
+        example: 50031936
+        description: ID_COMUNICAZIONE DI TAU_T_COMUNICAZIONE
+      protocollo:
+        type: string
+        description: >-
+          IDENTIFICATIVO_PROTOCOLLAZIONE DI TAU_T_COMUNICAZIONE è il numero
+          protocollo ACTA
+  RequestRichiestaInfoBolloEmail:
+    type: object
+    required:
+      - email
+    properties:
+      email:
+        type: string
+        description: indirizzo mail da attivare/revocare
+        example: paolo.rossi@csi.it
+  RequestRichiestaMemoBolloEmail:
+    type: object
+    required:
+      - codiceFiscale
+      - email
+      - targa
+      - tipoVeicolo
+    properties:
+      codiceFiscale:
+        type: string
+        example: SBCCST76M66F335L
+        description: codice fiscale
+      targa:
+        type: string
+        example: CR152AX
+        description: targa veicolo
+      tipoVeicolo:
+        type: string
+        example: A
+        description: codice tipo veicolo
+      email:
+        type: string
+        description: indirizzo mail da attivare/revocare
+        example: paolo.rossi@csi.it
+  RequestRichiestaMemoBolloSms:
+    type: object
+    required:
+      - codiceFiscale
+      - cell
+      - targa
+      - tipoVeicolo
+    properties:
+      codiceFiscale:
+        type: string
+        example: SBCCST76M66F335L
+        description: codice fiscale
+      targa:
+        type: string
+        example: CR152AX
+        description: targa veicolo
+      tipoVeicolo:
+        type: string
+        example: A
+        description: codice tipo veicolo
+      cell:
+        type: string
+        description: numero cell da attivare/revocare
+        example: '320578445'
+  RequestConfermaInfoBolloEmail:
+    type: object
+    required:
+      - email
+      - token
+    properties:
+      email:
+        type: string
+        description: indirizzo mail da attivare/revocare
+        example: paolo.rossi@csi.it
+      token:
+        type: string
+        description: token di verifica associato ad indirizzo mail
+        example: l8b7dwPnlURc91wrKegnyeZ1X2MnmbcU5s6TWmek184aKTl3Kd6645s07CGztqcBh
+  RequestConfermaMemoBolloEmail:
+    type: object
+    required:
+      - email
+      - token
+    properties:
+      email:
+        type: string
+        description: indirizzo mail da attivare/revocare
+        example: paolo.rossi@csi.it
+      token:
+        type: string
+        description: token di verifica associato ad indirizzo mail
+        example: l8b7dwPnlURc91wrKegnyeZ1X2MnmbcU5s6TWmek184aKTl3Kd6645s07CGztqcBh
+  RequestConfermaMemoBolloSms:
+    type: object
+    required:
+      - cell
+      - token
+    properties:
+      cell:
+        type: string
+        description: numero cell da attivare/revocare
+        example: 3205954545
+      token:
+        type: string
+        description: token di verifica associato a numero cell
+        example: '75865'
+  RequestRichiestaInfoBolloSms:
+    type: object
+    required:
+      - cell
+    properties:
+      cell:
+        type: string
+        description: numero cell da attivare/revocare
+        example: '32012345678'
+  RequestConfermaInfoBolloSms:
+    type: object
+    required:
+      - cell
+      - token
+    properties:
+      cell:
+        type: string
+        description: numero cell da attivare/revocare
+        example: '32012345678'
+      token:
+        type: string
+        description: token di verifica associato a numero cell
+        example: '59784'
+  RequestCreaTransazione:
+    type: object
+    properties:
+      carrello:
+        type: array
+        items:
+          $ref: '#/definitions/CarrelloVO'
+      email:
+        type: string
+        example: mario.rossi@csi.it
+        description: >-
+          indirizzo email sulla quale l' utente riceverà notifica sull' esito
+          transazione di pagamento
+      totale:
+        type: number
+        format: double
+        example: 261.09
+  RequestSalvaDomandaRateizzazione:
+    type: object
+    properties:
+      accertamenti:
+        type: array
+        items:
+          $ref: '#/definitions/AccertamentoVO'
+      allegati:
+        type: array
+        items:
+          $ref: '#/definitions/AllegatoVO'
+      dataCompilazione:
+        type: string
+        description: data compilazione della domanda
+        format: date
+        example: "2019-02-28"
+      diffEconomiche:
+        type: boolean
+        description: >-
+          flag che il Cittadino può selezionare per dichiarare di avere
+          particolari difficoltà economiche
+      fascia:
+        $ref: '#/definitions/ImportoRateVO'
+      soggetto:
+        $ref: '#/definitions/SoggettoRateizzazioneVO'
+      mail:
+        type: string
+        description: indirizzo email
+        example: mario.rossi@csi.it
+      cell:
+        type: string
+        description: numero cellulare
+        example: 33312345678
+  ResponseDisponibilitaScadenza:
+    type: object
+    properties:
+      esito:
+        type: string
+        example: 'OK'
+        description: esito controllo
+      tipoVeicolo:
+        $ref: '#/definitions/TipoVeicolo'
+  ResponseCreaTransazione:
+    type: object
+    properties:
+      esito:
+        type: string
+        description: esito operazione
+        example: OK
+      url:
+        type: string
+        description: >-
+          url sito web verso cui redirezionare l'utente per procedere con il
+          pagamento
+        example: 'https://www.agid.gov.it/it/piattaforme/pagopa'
+  ResponseCalcolaPagamento:
+    type: object
+    properties:
+      esito:
+        type: string
+      errori:
+        type: array
+        items:
+          $ref: '#/definitions/ErroreCalcoloVO'
+      risultato:
+        $ref: '#/definitions/EsitoCalcoloPagamentoVO'
+      proprietario:
+        $ref: '#/definitions/ProprietarioVO'
+  ResponseVerificaMemoBollo:
+    type: object
+    properties:
+      codiceFiscale:
+        type: string
+        example: SBCCST76M66F335L
+        description: codice fiscale del Contribuente
+      targa:
+        type: string
+        description: targa sulla quale il Contribuente vuole operare
+        example: CR152AX
+      tipoVeicolo:
+        $ref: '#/definitions/TipoVeicolo'
+      statoEmail:
+        type: object
+        properties:
+          dataAttivazione:
+            type: string
+            format: date
+            description: data attivazione del canale email
+            example: '2019-01-25'
+          destinatario:
+            type: string
+            description: indirizzo email collegata al servizio
+            example: mario.rossi@csi.it
+          stato:
+            type: string
+            description: stato attuale del servizio (email)
+            example: '''IN_ATTESA'' o ''ATTIVO''o ''ATTESA_REVOCA'' o ''INATTIVO'''
+      statoSms:
+        type: object
+        properties:
+          dataAttivazione:
+            type: string
+            format: date
+            description: data attivazione del canale sms
+            example: null
+          destinatario:
+            type: string
+            description: numero cellulare collegato al servizio (se attivo)
+            example: null
+          stato:
+            type: string
+            description: stato attuale del servizio (sms)
+            example: INATTIVO
+  ResponseConfermaDatiContribuente:
+    type: object
+    properties:
+      accertamenti:
+        type: array
+        items:
+          $ref: '#/definitions/AccertamentoVO'
+      totale:
+        type: number
+        format: double
+      fascia:
+        $ref: '#/definitions/ImportoRateVO'

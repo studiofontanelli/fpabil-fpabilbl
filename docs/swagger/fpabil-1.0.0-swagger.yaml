@@ -1,0 +1,95 @@
+swagger: '2.0'
+info:
+  title: FPABIL
+  description: Gestione abilitazione iride
+  version: 1.0.0
+  contact:
+    email: andrea1.fontanelli@consulenti.csi.it
+# host: tst-applogic.reteunitaria.piemonte.it
+# basePath: /fpabilbl/rest/1.0.0
+tags:
+  - name: anagafiche
+    description: Servizi di anagrafica 
+  - name: test
+    description: I servizi di test resource
+# schemes:
+#   - http
+paths:
+  /anagrafiche/province:
+    get:
+      summary: Get All province 
+      description: Restituisce l'elenco completo delle province
+      operationId: getProvince
+      produces:
+      - application/json
+      - application/xml
+      responses:
+        200:
+          schema: 
+            $ref: '#/definitions/ProvinciaArray'
+          description: OK
+        
+
+  /test/resources:
+    get:
+      tags:
+        - test
+      summary: Test resources
+      description: Effettua il test dei servizi richiamati
+      operationId: testResources
+      produces:
+      - application/json
+      - application/xml
+      responses:
+        200:
+          schema: 
+            $ref: '#/definitions/GenericResponse'
+          description: OK
+        404:
+          description: 'Test unsuccessful'
+          
+# Added by API Auto Mocking Plugin
+host: virtserver.swaggerhub.com
+# basePath: /fpabilbl/rest/1.0.0
+# schemes:
+#  - http
+# Added by API Auto Mocking Plugin
+basePath: /andreafontanelli/fpabilbl/1.0.0
+# schemes:
+#  - http
+ 
+definitions:
+  GenericResponse:
+    type: object
+    description: Risposta di un servizio generico
+    properties:
+      message:
+        type: string
+        description: Contiene il messaggio eventuale del servizio chiamato
+        example: 'Servizio ha risposto correttamete'
+  
+  Provincia:
+    type: object
+    description: L'oggetto rappresentante la provincia
+    properties:
+      codice:
+        type: string
+        description: codice provincia
+      descrizione:
+        type: string
+        description: la descrizione della provincia
+      sigla:
+        type: string
+        description: la sigla della provincia
+    
+  ProvinciaArray:
+    type: array
+    items:
+      $ref: '#/definitions/Provincia'
+    description: Elenco di oggetti provincia
+    
+        
+# Added by API Auto Mocking Plugin
+schemes:
+ - https
+ - http

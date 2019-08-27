@@ -1,0 +1,17 @@
+{
+"java8": true,
+"useBeanValidation": true,
+"hideGenerationTimestamp": true,
+"apiPackage": "it.csi.fpabil.fpabilbl.web.rest.service",
+"modelPackage":  "it.csi.fpabil.fpabilbl.web.rest.dto",
+"invokerPackage": "it.csi.fpabil.fpabilbl.web.rest.service",
+"implFolder": "src/java",
+"sourceFolder": "src/java",
+"useSwaggerFeature": false,
+"generateJbossDeploymentDescriptor": false,
+"generateImplArtifacts": true,
+"generateSwaggerMetadata": false,
+"attributeSerializationStrategy": "implicit-camel-case", 
+"accessHttpHeaders": true,
+"serializableModel": true
+}
