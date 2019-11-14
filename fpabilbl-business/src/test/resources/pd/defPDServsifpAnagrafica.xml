@@ -1,0 +1,150 @@
+<porta-delegata name="AnagraficaFPService">
+	<services>
+		<service name="AnagraficaFPService"
+			public-interface-class="it.csi.anagrFP.interfacecsi.AnagraficaFPService">
+			<operations>
+				<operation name="getProvinceRegPiemonte" type="synch-call">
+					<param-list>
+					</param-list>
+					<ret-val type="it.csi.common.vo.SelItem[]" />
+				</operation>
+
+				<operation name="getProvincePiemonteERegione" type="synch-call">
+					<param-list>
+					</param-list>
+					<ret-val type="it.csi.common.vo.SelItem[]" />
+				</operation>
+
+				<operation name="getListaComuniPerProv" type="synch-call">
+					<param-list>
+						<param name="codProv" type="java.lang.String" />
+					</param-list>
+					<ret-val type="it.csi.common.vo.SelItem[]" />
+				</operation>
+				<operation name="getListaProvinceItalia" type="synch-call">
+					<param-list>
+					</param-list>
+					<ret-val type="it.csi.common.vo.SelItem[]" />
+				</operation>
+				<operation name="getListaComuniItalia" type="synch-call">
+					<param-list>
+						<param name="codProv" type="java.lang.String" />
+					</param-list>
+					<ret-val type="it.csi.common.vo.SelItem[]" />
+				</operation>
+				<operation name="getListaQuartieri" type="synch-call">
+					<param-list>
+						<param name="comISTAT" type="java.lang.String" />
+					</param-list>
+					<ret-val type="it.csi.common.vo.SelItem[]" />
+				</operation>
+				<operation name="getListaStatiEsteri" type="synch-call">
+					<param-list>
+					</param-list>
+					<ret-val type="it.csi.common.vo.SelItem[]" />
+				</operation>
+				<operation name="getListaCittadinanza" type="synch-call">
+					<param-list>
+						<param name="nazionalita" type="java.lang.String" />
+					</param-list>
+					<ret-val type="it.csi.common.vo.SelItem[]" />
+				</operation>
+
+				<operation name="getListaCittadinanza" type="synch-call">
+					<param-list>
+						<param name="nazionalita" type="java.lang.String" />
+					</param-list>
+					<ret-val type="it.csi.common.vo.SelItem[]" />
+				</operation>
+
+				<operation name="getCodFiscaleComune" type="synch-call">
+					<param-list>
+						<param name="codComune" type="java.lang.String" />
+					</param-list>
+					<ret-val type="java.lang.String" />
+				</operation>
+
+
+				<operation name="getCodFiscaleStatoEstero" type="synch-call">
+					<param-list>
+						<param name="codStatoEstero" type="int" />
+					</param-list>
+					<ret-val type="java.lang.String" />
+				</operation>
+
+				<operation name="getComuneSiglaProvincia" type="synch-call">
+					<param-list>
+						<param name="codComune" type="java.lang.String" />
+					</param-list>
+					<ret-val type="java.lang.String" />
+				</operation>
+
+				<operation name="getDescrStato" type="synch-call">
+					<param-list>
+						<param name="codStatoestero" type="int" />
+					</param-list>
+					<ret-val type="java.lang.String" />
+				</operation>
+
+				<operation name="getCapComSigProv" type="synch-call">
+					<param-list>
+						<param name="cap" type="java.lang.String" />
+						<param name="codComune" type="java.lang.String" />
+					</param-list>
+					<ret-val type="java.lang.String" />
+				</operation>
+
+				<operation name="getDescrProvincia" type="synch-call">
+					<param-list>
+						<param name="provincia" type="java.lang.String" />
+					</param-list>
+					<ret-val type="java.lang.String" />
+				</operation>
+
+
+				<operation name="getLogoPerStampa" type="synch-call">
+					<param-list>
+						<param name="codProvincia" type="java.lang.String" />
+						<param name="tag" type="java.lang.String" />
+					</param-list>
+					<ret-val type="it.csi.finco.vo.CommissioneEsame" />
+				</operation>
+
+				<operation name="getTestoPerStampa" type="synch-call">
+					<param-list>
+						<param name="codProvincia" type="java.lang.String" />
+						<param name="tag" type="java.lang.String" />
+					</param-list>
+					<ret-val type="java.lang.String" />
+				</operation>
+
+				<operation name="getCodProvinciaBySigla" type="synch-call">
+					<param-list>
+						<param name="siglaProvincia" type="java.lang.String" />
+					</param-list>
+					<ret-val type="java.lang.String" />
+				</operation>
+
+				<operation name="isAlive" type="synch-call">
+					<param-list>
+					</param-list>
+					<ret-val type="boolean" />
+				</operation>
+				<operation name="testResources" type="synch-call">
+					<param-list>
+					</param-list>
+					<ret-val type="boolean" />
+				</operation>
+			</operations>
+		</service>
+	</services>
+	<config>
+		<url-pa>**not used**</url-pa>
+		<pluggable-pd-list chooser-class="it.csi.csi.porte.FixedDelegateChooser">
+			<pluggable-pd name="servsifpAnagraficaComProvsrv"
+				class="it.csi.csi.porte.soap.apache.PortaDelegataSoap" 
+				url-pa="http://tst-applogic.reteunitaria.piemonte.it/servsifpApplServsifpPabr/servlet/rpcrouter" />
+		</pluggable-pd-list>
+		<queue-manager url="" />
+	</config>
+</porta-delegata>

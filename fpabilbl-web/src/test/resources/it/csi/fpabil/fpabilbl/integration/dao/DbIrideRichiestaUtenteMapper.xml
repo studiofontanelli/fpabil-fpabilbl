@@ -1,0 +1,324 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="it.csi.fpabil.fpabilbl.integration.dao.DbIrideRichiestaUtenteMapper">
+  <resultMap id="BaseResultMap" type="it.csi.fpabil.fpabilbl.integration.dto.DbIrideRichiestaUtente">
+    <id column="cod_fiscale" jdbcType="VARCHAR" property="codFiscale" />
+    <id column="id_richiesta_operatore" jdbcType="NUMERIC" property="idRichiestaOperatore" />
+    <result column="cognome" jdbcType="VARCHAR" property="cognome" />
+    <result column="nome" jdbcType="VARCHAR" property="nome" />
+    <result column="data_nascita" jdbcType="DATE" property="dataNascita" />
+    <result column="numero_documento" jdbcType="VARCHAR" property="numeroDocumento" />
+    <result column="data_rilascio_documento" jdbcType="DATE" property="dataRilascioDocumento" />
+    <result column="e_mail" jdbcType="VARCHAR" property="eMail" />
+    <result column="num_telefono" jdbcType="VARCHAR" property="numTelefono" />
+    <result column="flag_certificato" jdbcType="VARCHAR" property="flagCertificato" />
+    <result column="tipo_documento" jdbcType="VARCHAR" property="tipoDocumento" />
+    <result column="flag_abilitazione" jdbcType="VARCHAR" property="flagAbilitazione" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    cod_fiscale, id_richiesta_operatore, cognome, nome, data_nascita, numero_documento, 
+    data_rilascio_documento, e_mail, num_telefono, flag_certificato, tipo_documento, 
+    flag_abilitazione
+  </sql>
+  <select id="selectByExample" parameterType="it.csi.fpabil.fpabilbl.integration.dto.DbIrideRichiestaUtenteExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from db_iride_richiesta_utente
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="it.csi.fpabil.fpabilbl.integration.dto.DbIrideRichiestaUtenteKey" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from db_iride_richiesta_utente
+    where cod_fiscale = #{codFiscale,jdbcType=VARCHAR}
+      and id_richiesta_operatore = #{idRichiestaOperatore,jdbcType=NUMERIC}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="it.csi.fpabil.fpabilbl.integration.dto.DbIrideRichiestaUtenteKey">
+    delete from db_iride_richiesta_utente
+    where cod_fiscale = #{codFiscale,jdbcType=VARCHAR}
+      and id_richiesta_operatore = #{idRichiestaOperatore,jdbcType=NUMERIC}
+  </delete>
+  <delete id="deleteByExample" parameterType="it.csi.fpabil.fpabilbl.integration.dto.DbIrideRichiestaUtenteExample">
+    delete from db_iride_richiesta_utente
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="it.csi.fpabil.fpabilbl.integration.dto.DbIrideRichiestaUtente">
+    insert into db_iride_richiesta_utente (cod_fiscale, id_richiesta_operatore, 
+      cognome, nome, data_nascita, 
+      numero_documento, data_rilascio_documento, e_mail, 
+      num_telefono, flag_certificato, tipo_documento, 
+      flag_abilitazione)
+    values (#{codFiscale,jdbcType=VARCHAR}, #{idRichiestaOperatore,jdbcType=NUMERIC}, 
+      #{cognome,jdbcType=VARCHAR}, #{nome,jdbcType=VARCHAR}, #{dataNascita,jdbcType=DATE}, 
+      #{numeroDocumento,jdbcType=VARCHAR}, #{dataRilascioDocumento,jdbcType=DATE}, #{eMail,jdbcType=VARCHAR}, 
+      #{numTelefono,jdbcType=VARCHAR}, #{flagCertificato,jdbcType=VARCHAR}, #{tipoDocumento,jdbcType=VARCHAR}, 
+      #{flagAbilitazione,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="it.csi.fpabil.fpabilbl.integration.dto.DbIrideRichiestaUtente">
+    insert into db_iride_richiesta_utente
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="codFiscale != null">
+        cod_fiscale,
+      </if>
+      <if test="idRichiestaOperatore != null">
+        id_richiesta_operatore,
+      </if>
+      <if test="cognome != null">
+        cognome,
+      </if>
+      <if test="nome != null">
+        nome,
+      </if>
+      <if test="dataNascita != null">
+        data_nascita,
+      </if>
+      <if test="numeroDocumento != null">
+        numero_documento,
+      </if>
+      <if test="dataRilascioDocumento != null">
+        data_rilascio_documento,
+      </if>
+      <if test="eMail != null">
+        e_mail,
+      </if>
+      <if test="numTelefono != null">
+        num_telefono,
+      </if>
+      <if test="flagCertificato != null">
+        flag_certificato,
+      </if>
+      <if test="tipoDocumento != null">
+        tipo_documento,
+      </if>
+      <if test="flagAbilitazione != null">
+        flag_abilitazione,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="codFiscale != null">
+        #{codFiscale,jdbcType=VARCHAR},
+      </if>
+      <if test="idRichiestaOperatore != null">
+        #{idRichiestaOperatore,jdbcType=NUMERIC},
+      </if>
+      <if test="cognome != null">
+        #{cognome,jdbcType=VARCHAR},
+      </if>
+      <if test="nome != null">
+        #{nome,jdbcType=VARCHAR},
+      </if>
+      <if test="dataNascita != null">
+        #{dataNascita,jdbcType=DATE},
+      </if>
+      <if test="numeroDocumento != null">
+        #{numeroDocumento,jdbcType=VARCHAR},
+      </if>
+      <if test="dataRilascioDocumento != null">
+        #{dataRilascioDocumento,jdbcType=DATE},
+      </if>
+      <if test="eMail != null">
+        #{eMail,jdbcType=VARCHAR},
+      </if>
+      <if test="numTelefono != null">
+        #{numTelefono,jdbcType=VARCHAR},
+      </if>
+      <if test="flagCertificato != null">
+        #{flagCertificato,jdbcType=VARCHAR},
+      </if>
+      <if test="tipoDocumento != null">
+        #{tipoDocumento,jdbcType=VARCHAR},
+      </if>
+      <if test="flagAbilitazione != null">
+        #{flagAbilitazione,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="it.csi.fpabil.fpabilbl.integration.dto.DbIrideRichiestaUtenteExample" resultType="java.lang.Long">
+    select count(*) from db_iride_richiesta_utente
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update db_iride_richiesta_utente
+    <set>
+      <if test="record.codFiscale != null">
+        cod_fiscale = #{record.codFiscale,jdbcType=VARCHAR},
+      </if>
+      <if test="record.idRichiestaOperatore != null">
+        id_richiesta_operatore = #{record.idRichiestaOperatore,jdbcType=NUMERIC},
+      </if>
+      <if test="record.cognome != null">
+        cognome = #{record.cognome,jdbcType=VARCHAR},
+      </if>
+      <if test="record.nome != null">
+        nome = #{record.nome,jdbcType=VARCHAR},
+      </if>
+      <if test="record.dataNascita != null">
+        data_nascita = #{record.dataNascita,jdbcType=DATE},
+      </if>
+      <if test="record.numeroDocumento != null">
+        numero_documento = #{record.numeroDocumento,jdbcType=VARCHAR},
+      </if>
+      <if test="record.dataRilascioDocumento != null">
+        data_rilascio_documento = #{record.dataRilascioDocumento,jdbcType=DATE},
+      </if>
+      <if test="record.eMail != null">
+        e_mail = #{record.eMail,jdbcType=VARCHAR},
+      </if>
+      <if test="record.numTelefono != null">
+        num_telefono = #{record.numTelefono,jdbcType=VARCHAR},
+      </if>
+      <if test="record.flagCertificato != null">
+        flag_certificato = #{record.flagCertificato,jdbcType=VARCHAR},
+      </if>
+      <if test="record.tipoDocumento != null">
+        tipo_documento = #{record.tipoDocumento,jdbcType=VARCHAR},
+      </if>
+      <if test="record.flagAbilitazione != null">
+        flag_abilitazione = #{record.flagAbilitazione,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update db_iride_richiesta_utente
+    set cod_fiscale = #{record.codFiscale,jdbcType=VARCHAR},
+      id_richiesta_operatore = #{record.idRichiestaOperatore,jdbcType=NUMERIC},
+      cognome = #{record.cognome,jdbcType=VARCHAR},
+      nome = #{record.nome,jdbcType=VARCHAR},
+      data_nascita = #{record.dataNascita,jdbcType=DATE},
+      numero_documento = #{record.numeroDocumento,jdbcType=VARCHAR},
+      data_rilascio_documento = #{record.dataRilascioDocumento,jdbcType=DATE},
+      e_mail = #{record.eMail,jdbcType=VARCHAR},
+      num_telefono = #{record.numTelefono,jdbcType=VARCHAR},
+      flag_certificato = #{record.flagCertificato,jdbcType=VARCHAR},
+      tipo_documento = #{record.tipoDocumento,jdbcType=VARCHAR},
+      flag_abilitazione = #{record.flagAbilitazione,jdbcType=VARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="it.csi.fpabil.fpabilbl.integration.dto.DbIrideRichiestaUtente">
+    update db_iride_richiesta_utente
+    <set>
+      <if test="cognome != null">
+        cognome = #{cognome,jdbcType=VARCHAR},
+      </if>
+      <if test="nome != null">
+        nome = #{nome,jdbcType=VARCHAR},
+      </if>
+      <if test="dataNascita != null">
+        data_nascita = #{dataNascita,jdbcType=DATE},
+      </if>
+      <if test="numeroDocumento != null">
+        numero_documento = #{numeroDocumento,jdbcType=VARCHAR},
+      </if>
+      <if test="dataRilascioDocumento != null">
+        data_rilascio_documento = #{dataRilascioDocumento,jdbcType=DATE},
+      </if>
+      <if test="eMail != null">
+        e_mail = #{eMail,jdbcType=VARCHAR},
+      </if>
+      <if test="numTelefono != null">
+        num_telefono = #{numTelefono,jdbcType=VARCHAR},
+      </if>
+      <if test="flagCertificato != null">
+        flag_certificato = #{flagCertificato,jdbcType=VARCHAR},
+      </if>
+      <if test="tipoDocumento != null">
+        tipo_documento = #{tipoDocumento,jdbcType=VARCHAR},
+      </if>
+      <if test="flagAbilitazione != null">
+        flag_abilitazione = #{flagAbilitazione,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where cod_fiscale = #{codFiscale,jdbcType=VARCHAR}
+      and id_richiesta_operatore = #{idRichiestaOperatore,jdbcType=NUMERIC}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="it.csi.fpabil.fpabilbl.integration.dto.DbIrideRichiestaUtente">
+    update db_iride_richiesta_utente
+    set cognome = #{cognome,jdbcType=VARCHAR},
+      nome = #{nome,jdbcType=VARCHAR},
+      data_nascita = #{dataNascita,jdbcType=DATE},
+      numero_documento = #{numeroDocumento,jdbcType=VARCHAR},
+      data_rilascio_documento = #{dataRilascioDocumento,jdbcType=DATE},
+      e_mail = #{eMail,jdbcType=VARCHAR},
+      num_telefono = #{numTelefono,jdbcType=VARCHAR},
+      flag_certificato = #{flagCertificato,jdbcType=VARCHAR},
+      tipo_documento = #{tipoDocumento,jdbcType=VARCHAR},
+      flag_abilitazione = #{flagAbilitazione,jdbcType=VARCHAR}
+    where cod_fiscale = #{codFiscale,jdbcType=VARCHAR}
+      and id_richiesta_operatore = #{idRichiestaOperatore,jdbcType=NUMERIC}
+  </update>
+</mapper>

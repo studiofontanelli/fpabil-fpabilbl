@@ -12,6 +12,7 @@
                         >
 
 	
+	
 	<context:property-placeholder location="classpath:environment.properties" />
 	
   	<!-- helper -->
@@ -19,9 +20,7 @@
   	
   	<!-- Process annotations on registered beans like @Autowired... -->
 	<context:annotation-config />	
-	
 	<aop:aspectj-autoproxy />
-	
 	<aop:config proxy-target-class="true"/>
   	
   	<!-- INTEGRATION MODULE CONFIGURATION MAIN FILE -->
@@ -35,14 +34,17 @@
 	<!-- DATA SOURCE MODULE CONFIGURATION MAIN FILE -->
 	<import resource="classpath*:spring/spring-datasource-junit.xml" />
 	
-
 	
-	<!-- Util  -->
+	<!-- Adapter 
+	<import resource="classpath*:spring/spring-adapter-junit.xml" />
+	-->
+	
+	<!-- Util -->
 	<import resource="classpath*:spring/spring-util-junit.xml" />
 	 
 	
-	<!-- Cache 
+	<!-- Cache -->
 	<import resource="classpath*:spring/spring-cache-junit.xml" />	
-	-->
+	
   	
 </beans>

@@ -28,8 +28,66 @@ paths:
           schema: 
             $ref: '#/definitions/ProvinciaArray'
           description: OK
-        
-
+          
+  /anagrafiche/comuni/all:
+    get:
+      summary: Get All comuni 
+      description: Restituisce l'elenco completo dei comuni
+      operationId: getComuni
+      produces:
+      - application/json
+      - application/xml
+      responses:
+        200:
+          schema: 
+            $ref: '#/definitions/ComuneArray'
+          description: OK      
+  /anagrafiche/comuni/byprovincia:
+    get:
+      summary: Get comuni By provicia 
+      description: Restituisce l'elenco dei comuni della
+                    provincia passata come
+      operationId: getComuniByProvincia
+      produces:
+      - application/json
+      - application/xml
+      parameters:
+        - in: query
+          name: codprovincia
+          type: string
+          required: true
+      responses:
+        200:
+          schema: 
+            $ref: '#/definitions/ComuneArray'
+          description: OK   
+  /anagrafiche/tipidocumento:
+    get:
+      summary: Get All tipo documento 
+      description: Restituisce l'elenco completo dei tipi documento
+      operationId: getTipiDocumento
+      produces:
+      - application/json
+      - application/xml
+      responses:
+        200:
+          schema: 
+            $ref: '#/definitions/TipoDocumentoArray'
+          description: OK  
+  /anagrafiche/statiesteri:
+    get:
+      summary: Get Stati Esteri
+      description: Restituisce l'elenco degli stati esteri
+      operationId: getStatiEsteri
+      produces:
+      - application/json
+      - application/xml
+      responses:
+        200:
+          schema: 
+            $ref: '#/definitions/StatoArray'
+          description: OK
+          
   /test/resources:
     get:
       tags:
@@ -48,6 +106,32 @@ paths:
         404:
           description: 'Test unsuccessful'
           
+  /richiesta/save:
+    post:
+      tags:
+        - save
+      summary: salvataggio richiesta
+      description: Salva la richiesta 
+      operationId: saveRequest
+      consumes:
+        - application/json
+        - application/xml
+      produces:
+        - application/json
+        - application/xml
+      parameters:
+        - in: body
+          name: request
+          schema:
+            $ref: '#/definitions/SalvaRichiestaRequest'
+          required: true
+      responses:
+        200:
+          schema: 
+            $ref: '#/definitions/SalvaRichiestaResponse'
+          description: OK
+        404:
+          description: 'Qualcosa è andato storto'        
 # Added by API Auto Mocking Plugin
 host: virtserver.swaggerhub.com
 # basePath: /fpabilbl/rest/1.0.0
@@ -87,7 +171,219 @@ definitions:
     items:
       $ref: '#/definitions/Provincia'
     description: Elenco di oggetti provincia
-    
+  Comune:
+    type: object
+    description: L'oggetto rappresentante il comune
+    properties:
+      codice:
+        type: string
+        description: codice comune
+      descrizione:
+        type: string
+        description: la descrizione del comune
+      provincia:
+        $ref: '#/definitions/Provincia'
+        description: la provincia di appartenenza al Comune  
+  ComuneArray:
+    type: array
+    items:
+      $ref: '#/definitions/Comune'
+    description: Elenco di oggetti comune
+  Stato:
+    type: object
+    description: L'oggetto rappresentante lo stato
+    properties:
+      codice:
+        type: string
+        description: codice stato
+      descrizione:
+        type: string
+        description: la descrizione dello stato
+  StatoArray:
+    type: array
+    items:
+      $ref: '#/definitions/Stato'
+    description: Elenco di oggetti tipo Documento
+  TipoDocumento:
+    type: object
+    description: L'oggetto rappresentante il tipo documento
+    properties:
+      codice:
+        type: string
+        description: codice documento
+      descrizione:
+        type: string
+        description: la descrizione del tipo documento
+  TipoDocumentoArray:
+    type: array
+    items:
+      $ref: '#/definitions/TipoDocumento'
+    description: Elenco di oggetti tipo Documento
+  StatoRchiesta:
+    type: object
+    description: L'oggetto rappresentante lo stato richiesta
+    properties:
+      id:
+        type: number
+        description: id stato richiesta
+      descrizione:
+        type: string
+        description: la descrizione dello stato richiesta
+  StatoRichiestaArray:
+    type: array
+    items:
+      $ref: '#/definitions/StatoRchiesta'
+    description: Elenco di oggetti tipo Stato Richiesta
+  Operatore:
+    type: object
+    description: L'oggetto rappresentante l'operatore
+    properties:
+      codice:
+        type: string
+        description: codice operatore
+      gruppo:
+        type: string
+        description: gruppo operatore
+      codiceFiscale:
+        type: string
+        description: codice fiscale operatore
+      partitaIva:
+        type: string
+        description: partita Iva operatore
+      tipoStatoSedeLegale:
+        type: string
+        description: tipo stato sede legale operatore
+      comuneSedeLegale:
+        type: string
+        description: comune sede legale operatore
+      provinciaSedeLegale:
+        type: string
+        description: provincia sede legale operatore
+      indirizzoSedeLegale:
+        type: string
+        description: indirizzo sede legale operatore 
+      capSedeLegale:
+        type: string
+        description: cap sede legale operatore 
+      statoEsteroSedeLegale:
+        type: string
+        description: Stato Estero legale operatore 
+      cittaEsteraSedeLegale:
+        type: string
+        description: Città estera sede legale operatore 
+      telefono:
+        type: string
+        description: telefono
+      telefonoSecondario:
+        type: string
+        description: telefono 2 legale operatore 
+      fax:
+        type: string
+        description: fax legale operatore 
+      email:
+        type: string
+        description: email legale operatore 
+  
+  Richiedente:
+    type: object
+    description: L'oggetto rappresentante il richiedente
+    properties:
+      nome:
+        type: string
+        description: Il nome
+      cognome:
+        type: string
+        description: Il cognome
+      dataNascita:
+        type: string
+        format: date 
+        description: data nascita
+      natoInItalia:
+        type: boolean
+        description: true se nato in Italia, false all'estero
+      comuneNascita:
+        type: string
+        description: comune di nascita
+      provinciaNascita:
+        type: string
+        description: provincia di nascita
+      statoEsteroNascita:
+        type: string
+        description: stato estero di nascita
+      cittaEsteraNascita:
+        type: string
+        description: città estera di nascita
+      tipoStatoNascita:
+        type: string
+        description: I = Italia, E=Estero
+      telefono:
+        type: string
+        description: telefono
+      email:
+        type: string
+        description: email
+        
+  Persona:
+    type: object
+    description: L'oggetto rappresentante la persona da abilitare/disabilitare
+    properties:
+      nome:
+        type: string
+        description: Il nome
+      cognome:
+        type: string
+        description: Il cognome
+      dataNascita:
+        type: string
+        format: date 
+        description: data nascita
+      email:
+        type: string
+        description: email
+      tipoRichiesta:
+        type: string
+        description: Indica se la richiesta è di abilitazione o disabilitazione
+      richiestaCertificatoDigitale:
+        type: string
+        description: Y = SI, N = No
+      tipoDocumento:
+        type: string
+        description: tipo documento
+      numeroDocumento:
+        type: string
+        description: numero documento
+      dataRilascioDocumento:
+        type: string
+        format: date
+        description: data rilascio documento
+  PersonaArray:
+    type: array
+    description: L'elenco di persone di cui richiedere abilitazione/disabilitazione
+    items:
+      $ref: '#/definitions/Persona'
+  SalvaRichiestaRequest:
+    type: object
+    description: Richiesta inserimento Operatore
+    properties:
+      operatore:
+        type: object
+        description: l'operatore da salvare
+        $ref: '#/definitions/Operatore'
+      richiedente:
+        type: object
+        description: Il richiedente
+        $ref: '#/definitions/Richiedente'
+      elencoPersone:
+        type: object
+        description: elenco persone da abilitare/disabilitare
+        $ref: '#/definitions/PersonaArray'
+  SalvaRichiestaResponse:
+    type: object
+    description: Risposta del servizio di inserimento richiesta
+    properties:
+      codiceRichiesta:
+        type: string
+        description: Codice richiesta
         
 # Added by API Auto Mocking Plugin
 schemes:

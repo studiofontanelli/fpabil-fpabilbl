@@ -3,11 +3,12 @@
  **********************************************/
 package it.csi.fpabil.fpabilbl.web.rest.service;
 
-
+import it.csi.fpabil.fpabilbl.web.rest.dto.*;
 
 import io.swagger.annotations.ApiParam;
 import io.swagger.jaxrs.*;
 
+import it.csi.fpabil.fpabilbl.web.rest.dto.GenericResponse;
 
 import java.util.List;
 import java.util.Map;
@@ -31,10 +32,11 @@ public interface TestApi  {
    
     @GET
     @Path("/resources")
+    
     @Produces({ "application/json", "application/xml" })
-    @io.swagger.annotations.ApiOperation(value = "Test resources", notes = "Effettua il test dei servizi richiamati", response = Void.class, tags={ "test", })
+    @io.swagger.annotations.ApiOperation(value = "Test resources", notes = "Effettua il test dei servizi richiamati", response = GenericResponse.class, tags={ "test", })
     @io.swagger.annotations.ApiResponses(value = { 
-        @io.swagger.annotations.ApiResponse(code = 200, message = "Test eseguito con successo", response = Void.class),
+        @io.swagger.annotations.ApiResponse(code = 200, message = "OK", response = GenericResponse.class),
         
         @io.swagger.annotations.ApiResponse(code = 404, message = "Test unsuccessful", response = Void.class) })
     public Response testResources(@Context SecurityContext securityContext, @Context HttpHeaders httpHeaders );

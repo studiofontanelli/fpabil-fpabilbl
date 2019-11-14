@@ -1,0 +1,118 @@
+<porta-delegata name="OperatoreFPService">
+	<services>
+		<service name="OperatoreFPService"
+			public-interface-class="it.csi.operatore.interfacecsi.OperatoreFPService">
+			<operations>
+
+				<operation name="getOperatore" type="synch-call">
+					<param-list>
+						<param name="codice" type="java.lang.String" />
+					</param-list>
+					<ret-val type="it.csi.operatore.vo.Operatore" />
+				</operation>
+				<operation name="getOperatore" type="synch-call">
+          			<param-list>
+            				<param name="ipAddress" type="java.lang.String"/>
+            				<param name="codice" type="int"/>
+          			</param-list>
+          			<ret-val type="it.csi.operatore.vo.Operatore"/>
+      			</operation>
+				
+
+				<operation name="getListaSediOperatore" type="synch-call">
+					<param-list>
+						<param name="ipAddress" type="java.lang.String" />
+						<param name="codice" type="java.lang.String" />
+					</param-list>
+					<ret-val type="it.csi.common.vo.SelItem[]" />
+				</operation>
+
+				<operation name="getListaSediOperatore" type="synch-call">
+					<param-list>
+						<param name="ipAddress" type="java.lang.String" />
+						<param name="gruppoOperatore" type="java.lang.String" />
+						<param name="codiceOperatore" type="java.lang.String" />
+					</param-list>
+					<ret-val type="it.csi.common.vo.SelItem[]" />
+				</operation>
+
+				<operation name="getCodiceEnte" type="synch-call">
+					<param-list>
+						<param name="gruppoOperatore" type="java.lang.String" />
+						<param name="codiceOperatore" type="int" />
+						<param name="ipAddress" type="java.lang.String" />
+					</param-list>
+					<ret-val type="java.lang.String" />
+				</operation>
+
+				<operation name="isAlive" type="synch-call">
+					<param-list>
+					</param-list>
+					<ret-val type="boolean" />
+				</operation>
+
+				<operation name="testResources" type="synch-call">
+					<param-list>
+					</param-list>
+					<ret-val type="boolean" />
+				</operation>
+
+				<operation name="getListaCentri" type="synch-call">
+					<param-list>
+						<param name="ipAddress" type="java.lang.String" />
+						<param name="codice" type="java.lang.String" />
+					</param-list>
+					<ret-val type="it.csi.common.vo.SelItem[]" />
+				</operation>
+
+				<operation name="getOperatoreDaGruppoCodice" type="synch-call">
+					<param-list>
+						<param name="gruppoOperatore" type="java.lang.String" />
+						<param name="codiceOperatore" type="int" />
+					</param-list>
+					<ret-val type="it.csi.operatore.vo.Operatore" />
+				</operation>
+
+				<operation name="getListaSediCorso" type="synch-call">
+					<param-list>
+						<param name="codiceOp" type="int" />
+						<param name="ipAddress" type="java.lang.String" />
+					</param-list>
+					<ret-val type="it.csi.common.vo.SelItem[]" />
+				</operation>
+
+				<operation name="getListaSediCorso_V2" type="synch-call">
+					<param-list>
+						<param name="codiceOp" type="int" />
+						<param name="ipAddress" type="java.lang.String" />
+					</param-list>
+					<ret-val type="it.csi.common.vo.SelItem[]" />
+				</operation>
+
+				<operation name="getCodProvinciaByCentro" type="synch-call">
+					<param-list>
+						<param name="ipAddress" type="java.lang.String" />
+						<param name="codice" type="java.lang.String" />
+						<param name="subcodice" type="java.lang.String" />
+					</param-list>
+					<ret-val type="java.lang.String" />
+				</operation>
+			<operation name="getSede" type="synch-call">
+				<param-list>
+					<param name="codComune" type="java.lang.String" />
+				</param-list>
+				<ret-val type="it.csi.operatore.vo.Sede" />
+			</operation>
+			</operations>
+		</service>
+	</services>
+	<config>
+		<url-pa>**not used**</url-pa>
+		<pluggable-pd-list chooser-class="it.csi.csi.porte.FixedDelegateChooser">
+			<pluggable-pd name="servsifpOperatoresrv"
+				class="it.csi.csi.porte.soap.apache.PortaDelegataSoap" 
+				url-pa="http://tst-applogic.reteunitaria.piemonte.it/servsifpApplServsifpPabr/servlet/rpcrouter" />
+		</pluggable-pd-list>
+		<queue-manager url="" />
+	</config>
+</porta-delegata>

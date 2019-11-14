@@ -196,7 +196,15 @@ font-style: italic;
   <div class="method-summary"></div>
   <h4><a href="#Default">Default</a></h4>
   <ul>
+  <li><a href="#getComuni"><code><span class="http-method">get</span> /anagrafiche/comuni/all</code></a></li>
+  <li><a href="#getComuniByProvincia"><code><span class="http-method">get</span> /anagrafiche/comuni/byprovincia</code></a></li>
   <li><a href="#getProvince"><code><span class="http-method">get</span> /anagrafiche/province</code></a></li>
+  <li><a href="#getStatiEsteri"><code><span class="http-method">get</span> /anagrafiche/statiesteri</code></a></li>
+  <li><a href="#getTipiDocumento"><code><span class="http-method">get</span> /anagrafiche/tipidocumento</code></a></li>
+  </ul>
+  <h4><a href="#Save">Save</a></h4>
+  <ul>
+  <li><a href="#saveRequest"><code><span class="http-method">post</span> /richiesta/save</code></a></li>
   </ul>
   <h4><a href="#Test">Test</a></h4>
   <ul>
@@ -204,6 +212,96 @@ font-style: italic;
   </ul>
 
   <h1><a name="Default">Default</a></h1>
+  <div class="method"><a name="getComuni"/>
+    <div class="method-path">
+    <a class="up" href="#__Methods">Up</a>
+    <pre class="get"><code class="huge"><span class="http-method">get</span> /anagrafiche/comuni/all</code></pre></div>
+    <div class="method-summary">Get All comuni (<span class="nickname">getComuni</span>)</div>
+    <div class="method-notes">Restituisce l'elenco completo dei comuni</div>
+
+
+
+
+
+
+
+    <h3 class="field-label">Return type</h3>
+    <div class="return-type">
+      <a href="#ComuneArray">ComuneArray</a>
+      
+    </div>
+
+    <!--Todo: process Response Object and its headers, schema, examples -->
+
+    <h3 class="field-label">Example data</h3>
+    <div class="example-data-content-type">Content-Type: application/json</div>
+    <pre class="example"><code>""</code></pre>
+    <h3 class="field-label">Example data</h3>
+    <div class="example-data-content-type">Content-Type: application/xml</div>
+    <pre class="example"><code>null</code></pre>
+
+    <h3 class="field-label">Produces</h3>
+    This API call produces the following media types according to the <span class="header">Accept</span> request header;
+    the media type will be conveyed by the <span class="header">Content-Type</span> response header.
+    <ul>
+      <li><code>application/json</code></li>
+      <li><code>application/xml</code></li>
+    </ul>
+
+    <h3 class="field-label">Responses</h3>
+    <h4 class="field-label">200</h4>
+    OK
+        <a href="#ComuneArray">ComuneArray</a>
+  </div> <!-- method -->
+  <hr/>
+  <div class="method"><a name="getComuniByProvincia"/>
+    <div class="method-path">
+    <a class="up" href="#__Methods">Up</a>
+    <pre class="get"><code class="huge"><span class="http-method">get</span> /anagrafiche/comuni/byprovincia</code></pre></div>
+    <div class="method-summary">Get comuni By provicia (<span class="nickname">getComuniByProvincia</span>)</div>
+    <div class="method-notes">Restituisce l'elenco dei comuni della provincia passata come</div>
+
+
+
+
+
+    <h3 class="field-label">Query parameters</h3>
+    <div class="field-items">
+      <div class="param">codprovincia (required)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash;  </div>
+    </div>  <!-- field-items -->
+
+
+    <h3 class="field-label">Return type</h3>
+    <div class="return-type">
+      <a href="#ComuneArray">ComuneArray</a>
+      
+    </div>
+
+    <!--Todo: process Response Object and its headers, schema, examples -->
+
+    <h3 class="field-label">Example data</h3>
+    <div class="example-data-content-type">Content-Type: application/json</div>
+    <pre class="example"><code>""</code></pre>
+    <h3 class="field-label">Example data</h3>
+    <div class="example-data-content-type">Content-Type: application/xml</div>
+    <pre class="example"><code>null</code></pre>
+
+    <h3 class="field-label">Produces</h3>
+    This API call produces the following media types according to the <span class="header">Accept</span> request header;
+    the media type will be conveyed by the <span class="header">Content-Type</span> response header.
+    <ul>
+      <li><code>application/json</code></li>
+      <li><code>application/xml</code></li>
+    </ul>
+
+    <h3 class="field-label">Responses</h3>
+    <h4 class="field-label">200</h4>
+    OK
+        <a href="#ComuneArray">ComuneArray</a>
+  </div> <!-- method -->
+  <hr/>
   <div class="method"><a name="getProvince"/>
     <div class="method-path">
     <a class="up" href="#__Methods">Up</a>
@@ -244,6 +342,153 @@ font-style: italic;
     <h4 class="field-label">200</h4>
     OK
         <a href="#ProvinciaArray">ProvinciaArray</a>
+  </div> <!-- method -->
+  <hr/>
+  <div class="method"><a name="getStatiEsteri"/>
+    <div class="method-path">
+    <a class="up" href="#__Methods">Up</a>
+    <pre class="get"><code class="huge"><span class="http-method">get</span> /anagrafiche/statiesteri</code></pre></div>
+    <div class="method-summary">Get Stati Esteri (<span class="nickname">getStatiEsteri</span>)</div>
+    <div class="method-notes">Restituisce l'elenco degli stati esteri</div>
+
+
+
+
+
+
+
+    <h3 class="field-label">Return type</h3>
+    <div class="return-type">
+      <a href="#StatoArray">StatoArray</a>
+      
+    </div>
+
+    <!--Todo: process Response Object and its headers, schema, examples -->
+
+    <h3 class="field-label">Example data</h3>
+    <div class="example-data-content-type">Content-Type: application/json</div>
+    <pre class="example"><code>""</code></pre>
+    <h3 class="field-label">Example data</h3>
+    <div class="example-data-content-type">Content-Type: application/xml</div>
+    <pre class="example"><code>null</code></pre>
+
+    <h3 class="field-label">Produces</h3>
+    This API call produces the following media types according to the <span class="header">Accept</span> request header;
+    the media type will be conveyed by the <span class="header">Content-Type</span> response header.
+    <ul>
+      <li><code>application/json</code></li>
+      <li><code>application/xml</code></li>
+    </ul>
+
+    <h3 class="field-label">Responses</h3>
+    <h4 class="field-label">200</h4>
+    OK
+        <a href="#StatoArray">StatoArray</a>
+  </div> <!-- method -->
+  <hr/>
+  <div class="method"><a name="getTipiDocumento"/>
+    <div class="method-path">
+    <a class="up" href="#__Methods">Up</a>
+    <pre class="get"><code class="huge"><span class="http-method">get</span> /anagrafiche/tipidocumento</code></pre></div>
+    <div class="method-summary">Get All tipo documento (<span class="nickname">getTipiDocumento</span>)</div>
+    <div class="method-notes">Restituisce l'elenco completo dei tipi documento</div>
+
+
+
+
+
+
+
+    <h3 class="field-label">Return type</h3>
+    <div class="return-type">
+      <a href="#TipoDocumentoArray">TipoDocumentoArray</a>
+      
+    </div>
+
+    <!--Todo: process Response Object and its headers, schema, examples -->
+
+    <h3 class="field-label">Example data</h3>
+    <div class="example-data-content-type">Content-Type: application/json</div>
+    <pre class="example"><code>""</code></pre>
+    <h3 class="field-label">Example data</h3>
+    <div class="example-data-content-type">Content-Type: application/xml</div>
+    <pre class="example"><code>null</code></pre>
+
+    <h3 class="field-label">Produces</h3>
+    This API call produces the following media types according to the <span class="header">Accept</span> request header;
+    the media type will be conveyed by the <span class="header">Content-Type</span> response header.
+    <ul>
+      <li><code>application/json</code></li>
+      <li><code>application/xml</code></li>
+    </ul>
+
+    <h3 class="field-label">Responses</h3>
+    <h4 class="field-label">200</h4>
+    OK
+        <a href="#TipoDocumentoArray">TipoDocumentoArray</a>
+  </div> <!-- method -->
+  <hr/>
+  <h1><a name="Save">Save</a></h1>
+  <div class="method"><a name="saveRequest"/>
+    <div class="method-path">
+    <a class="up" href="#__Methods">Up</a>
+    <pre class="post"><code class="huge"><span class="http-method">post</span> /richiesta/save</code></pre></div>
+    <div class="method-summary">salvataggio richiesta (<span class="nickname">saveRequest</span>)</div>
+    <div class="method-notes">Salva la richiesta</div>
+
+
+    <h3 class="field-label">Consumes</h3>
+    This API call consumes the following media types via the <span class="header">Content-Type</span> request header:
+    <ul>
+      <li><code>application/json</code></li>
+      <li><code>application/xml</code></li>
+    </ul>
+
+    <h3 class="field-label">Request body</h3>
+    <div class="field-items">
+      <div class="param">request <a href="#SalvaRichiestaRequest">SalvaRichiestaRequest</a> (required)</div>
+
+      <div class="param-desc"><span class="param-type">Body Parameter</span> &mdash;  </div>
+
+    </div>  <!-- field-items -->
+
+
+
+
+    <h3 class="field-label">Return type</h3>
+    <div class="return-type">
+      <a href="#SalvaRichiestaResponse">SalvaRichiestaResponse</a>
+      
+    </div>
+
+    <!--Todo: process Response Object and its headers, schema, examples -->
+
+    <h3 class="field-label">Example data</h3>
+    <div class="example-data-content-type">Content-Type: application/json</div>
+    <pre class="example"><code>{
+  "codiceRichiesta" : "codiceRichiesta"
+}</code></pre>
+    <h3 class="field-label">Example data</h3>
+    <div class="example-data-content-type">Content-Type: application/xml</div>
+    <pre class="example"><code><null>
+  <codiceRichiesta>aeiou</codiceRichiesta>
+</null></code></pre>
+
+    <h3 class="field-label">Produces</h3>
+    This API call produces the following media types according to the <span class="header">Accept</span> request header;
+    the media type will be conveyed by the <span class="header">Content-Type</span> response header.
+    <ul>
+      <li><code>application/json</code></li>
+      <li><code>application/xml</code></li>
+    </ul>
+
+    <h3 class="field-label">Responses</h3>
+    <h4 class="field-label">200</h4>
+    OK
+        <a href="#SalvaRichiestaResponse">SalvaRichiestaResponse</a>
+    <h4 class="field-label">404</h4>
+    Qualcosa è andato storto
+        <a href="#"></a>
   </div> <!-- method -->
   <hr/>
   <h1><a name="Test">Test</a></h1>
@@ -302,17 +547,88 @@ font-style: italic;
 
   <h3>Table of Contents</h3>
   <ol>
+    <li><a href="#Comune"><code>Comune</code> - </a></li>
+    <li><a href="#ComuneArray"><code>ComuneArray</code> - </a></li>
     <li><a href="#GenericResponse"><code>GenericResponse</code> - </a></li>
+    <li><a href="#Operatore"><code>Operatore</code> - </a></li>
+    <li><a href="#Persona"><code>Persona</code> - </a></li>
+    <li><a href="#PersonaArray"><code>PersonaArray</code> - </a></li>
     <li><a href="#Provincia"><code>Provincia</code> - </a></li>
     <li><a href="#ProvinciaArray"><code>ProvinciaArray</code> - </a></li>
+    <li><a href="#Richiedente"><code>Richiedente</code> - </a></li>
+    <li><a href="#SalvaRichiestaRequest"><code>SalvaRichiestaRequest</code> - </a></li>
+    <li><a href="#SalvaRichiestaResponse"><code>SalvaRichiestaResponse</code> - </a></li>
+    <li><a href="#Stato"><code>Stato</code> - </a></li>
+    <li><a href="#StatoArray"><code>StatoArray</code> - </a></li>
+    <li><a href="#StatoRchiesta"><code>StatoRchiesta</code> - </a></li>
+    <li><a href="#StatoRichiestaArray"><code>StatoRichiestaArray</code> - </a></li>
+    <li><a href="#TipoDocumento"><code>TipoDocumento</code> - </a></li>
+    <li><a href="#TipoDocumentoArray"><code>TipoDocumentoArray</code> - </a></li>
   </ol>
 
+  <div class="model">
+    <h3><a name="Comune"><code>Comune</code> - </a> <a class="up" href="#__Models">Up</a></h3>
+    <div class='model-description'>L'oggetto rappresentante il comune</div>
+    <div class="field-items">
+      <div class="param">codice (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> codice comune </div>
+<div class="param">descrizione (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> la descrizione del comune </div>
+<div class="param">provincia (optional)</div><div class="param-desc"><span class="param-type"><a href="#Provincia">Provincia</a></span> la provincia di appartenenza al Comune </div>
+    </div>  <!-- field-items -->
+  </div>
+  <div class="model">
+    <h3><a name="ComuneArray"><code>ComuneArray</code> - </a> <a class="up" href="#__Models">Up</a></h3>
+    <div class='model-description'>Elenco di oggetti comune</div>
+    <div class="field-items">
+          </div>  <!-- field-items -->
+  </div>
   <div class="model">
     <h3><a name="GenericResponse"><code>GenericResponse</code> - </a> <a class="up" href="#__Models">Up</a></h3>
     <div class='model-description'>Risposta di un servizio generico</div>
     <div class="field-items">
       <div class="param">message (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Contiene il messaggio eventuale del servizio chiamato </div>
     </div>  <!-- field-items -->
+  </div>
+  <div class="model">
+    <h3><a name="Operatore"><code>Operatore</code> - </a> <a class="up" href="#__Models">Up</a></h3>
+    <div class='model-description'>L'oggetto rappresentante l'operatore</div>
+    <div class="field-items">
+      <div class="param">codice (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> codice operatore </div>
+<div class="param">gruppo (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> gruppo operatore </div>
+<div class="param">codiceFiscale (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> codice fiscale operatore </div>
+<div class="param">partitaIva (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> partita Iva operatore </div>
+<div class="param">tipoStatoSedeLegale (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> tipo stato sede legale operatore </div>
+<div class="param">comuneSedeLegale (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> comune sede legale operatore </div>
+<div class="param">provinciaSedeLegale (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> provincia sede legale operatore </div>
+<div class="param">indirizzoSedeLegale (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> indirizzo sede legale operatore </div>
+<div class="param">capSedeLegale (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> cap sede legale operatore </div>
+<div class="param">statoEsteroSedeLegale (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Stato Estero legale operatore </div>
+<div class="param">cittaEsteraSedeLegale (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Città estera sede legale operatore </div>
+<div class="param">telefono (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> telefono </div>
+<div class="param">telefonoSecondario (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> telefono 2 legale operatore </div>
+<div class="param">fax (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> fax legale operatore </div>
+<div class="param">email (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> email legale operatore </div>
+    </div>  <!-- field-items -->
+  </div>
+  <div class="model">
+    <h3><a name="Persona"><code>Persona</code> - </a> <a class="up" href="#__Models">Up</a></h3>
+    <div class='model-description'>L'oggetto rappresentante la persona da abilitare/disabilitare</div>
+    <div class="field-items">
+      <div class="param">nome (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Il nome </div>
+<div class="param">cognome (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Il cognome </div>
+<div class="param">dataNascita (optional)</div><div class="param-desc"><span class="param-type"><a href="#date">date</a></span> data nascita format: date</div>
+<div class="param">email (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> email </div>
+<div class="param">tipoRichiesta (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Indica se la richiesta è di abilitazione o disabilitazione </div>
+<div class="param">richiestaCertificatoDigitale (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Y = SI, N = No </div>
+<div class="param">tipoDocumento (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> tipo documento </div>
+<div class="param">numeroDocumento (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> numero documento </div>
+<div class="param">dataRilascioDocumento (optional)</div><div class="param-desc"><span class="param-type"><a href="#date">date</a></span> data rilascio documento format: date</div>
+    </div>  <!-- field-items -->
+  </div>
+  <div class="model">
+    <h3><a name="PersonaArray"><code>PersonaArray</code> - </a> <a class="up" href="#__Models">Up</a></h3>
+    <div class='model-description'>L'elenco di persone di cui richiedere abilitazione/disabilitazione</div>
+    <div class="field-items">
+          </div>  <!-- field-items -->
   </div>
   <div class="model">
     <h3><a name="Provincia"><code>Provincia</code> - </a> <a class="up" href="#__Models">Up</a></h3>
@@ -326,6 +642,81 @@ font-style: italic;
   <div class="model">
     <h3><a name="ProvinciaArray"><code>ProvinciaArray</code> - </a> <a class="up" href="#__Models">Up</a></h3>
     <div class='model-description'>Elenco di oggetti provincia</div>
+    <div class="field-items">
+          </div>  <!-- field-items -->
+  </div>
+  <div class="model">
+    <h3><a name="Richiedente"><code>Richiedente</code> - </a> <a class="up" href="#__Models">Up</a></h3>
+    <div class='model-description'>L'oggetto rappresentante il richiedente</div>
+    <div class="field-items">
+      <div class="param">nome (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Il nome </div>
+<div class="param">cognome (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Il cognome </div>
+<div class="param">dataNascita (optional)</div><div class="param-desc"><span class="param-type"><a href="#date">date</a></span> data nascita format: date</div>
+<div class="param">natoInItalia (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> true se nato in Italia, false all'estero </div>
+<div class="param">comuneNascita (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> comune di nascita </div>
+<div class="param">provinciaNascita (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> provincia di nascita </div>
+<div class="param">statoEsteroNascita (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> stato estero di nascita </div>
+<div class="param">cittaEsteraNascita (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> città estera di nascita </div>
+<div class="param">tipoStatoNascita (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> I = Italia, E=Estero </div>
+<div class="param">telefono (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> telefono </div>
+<div class="param">email (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> email </div>
+    </div>  <!-- field-items -->
+  </div>
+  <div class="model">
+    <h3><a name="SalvaRichiestaRequest"><code>SalvaRichiestaRequest</code> - </a> <a class="up" href="#__Models">Up</a></h3>
+    <div class='model-description'>Richiesta inserimento Operatore</div>
+    <div class="field-items">
+      <div class="param">operatore (optional)</div><div class="param-desc"><span class="param-type"><a href="#Operatore">Operatore</a></span> l'operatore da salvare </div>
+<div class="param">richiedente (optional)</div><div class="param-desc"><span class="param-type"><a href="#Richiedente">Richiedente</a></span> Il richiedente </div>
+<div class="param">elencoPersone (optional)</div><div class="param-desc"><span class="param-type"><a href="#PersonaArray">PersonaArray</a></span> elenco persone da abilitare/disabilitare </div>
+    </div>  <!-- field-items -->
+  </div>
+  <div class="model">
+    <h3><a name="SalvaRichiestaResponse"><code>SalvaRichiestaResponse</code> - </a> <a class="up" href="#__Models">Up</a></h3>
+    <div class='model-description'>Risposta del servizio di inserimento richiesta</div>
+    <div class="field-items">
+      <div class="param">codiceRichiesta (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Codice richiesta </div>
+    </div>  <!-- field-items -->
+  </div>
+  <div class="model">
+    <h3><a name="Stato"><code>Stato</code> - </a> <a class="up" href="#__Models">Up</a></h3>
+    <div class='model-description'>L'oggetto rappresentante lo stato</div>
+    <div class="field-items">
+      <div class="param">codice (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> codice stato </div>
+<div class="param">descrizione (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> la descrizione dello stato </div>
+    </div>  <!-- field-items -->
+  </div>
+  <div class="model">
+    <h3><a name="StatoArray"><code>StatoArray</code> - </a> <a class="up" href="#__Models">Up</a></h3>
+    <div class='model-description'>Elenco di oggetti tipo Documento</div>
+    <div class="field-items">
+          </div>  <!-- field-items -->
+  </div>
+  <div class="model">
+    <h3><a name="StatoRchiesta"><code>StatoRchiesta</code> - </a> <a class="up" href="#__Models">Up</a></h3>
+    <div class='model-description'>L'oggetto rappresentante lo stato richiesta</div>
+    <div class="field-items">
+      <div class="param">id (optional)</div><div class="param-desc"><span class="param-type"><a href="#number">BigDecimal</a></span> id stato richiesta </div>
+<div class="param">descrizione (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> la descrizione dello stato richiesta </div>
+    </div>  <!-- field-items -->
+  </div>
+  <div class="model">
+    <h3><a name="StatoRichiestaArray"><code>StatoRichiestaArray</code> - </a> <a class="up" href="#__Models">Up</a></h3>
+    <div class='model-description'>Elenco di oggetti tipo Stato Richiesta</div>
+    <div class="field-items">
+          </div>  <!-- field-items -->
+  </div>
+  <div class="model">
+    <h3><a name="TipoDocumento"><code>TipoDocumento</code> - </a> <a class="up" href="#__Models">Up</a></h3>
+    <div class='model-description'>L'oggetto rappresentante il tipo documento</div>
+    <div class="field-items">
+      <div class="param">codice (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> codice documento </div>
+<div class="param">descrizione (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> la descrizione del tipo documento </div>
+    </div>  <!-- field-items -->
+  </div>
+  <div class="model">
+    <h3><a name="TipoDocumentoArray"><code>TipoDocumentoArray</code> - </a> <a class="up" href="#__Models">Up</a></h3>
+    <div class='model-description'>Elenco di oggetti tipo Documento</div>
     <div class="field-items">
           </div>  <!-- field-items -->
   </div>

@@ -25,6 +25,52 @@
 		</dependency>
 		
 		
+		<dependency>
+    		<groupId>it.csi.fpgensrw</groupId>
+   		 	<artifactId>servsifp-client</artifactId>
+    		<version>5.3.0</version>
+    		
+		</dependency>
+		
+		
+		
+		<!-- CSI C.S.I dependencies -->
+		<dependency>
+			<groupId>it.csi.csi</groupId>
+			<artifactId>csi-core</artifactId>
+			<version>${csi.lib.version}</version>
+			<scope>compile</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>it.csi.csi</groupId>
+			<artifactId>csi-stadapter</artifactId>
+			<version>${csi.lib.version}</version>
+			<scope>compile</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>it.csi.csi</groupId>
+			<artifactId>csi-ejb</artifactId>
+			<version>${csi.lib.version}</version>
+			<scope>compile</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>it.csi.csi</groupId>
+			<artifactId>csi-rmi</artifactId>
+			<version>${csi.lib.version}</version>
+			<scope>compile</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>it.csi.csi</groupId>
+			<artifactId>csi-apachesoap</artifactId>
+			<version>${csi.lib.version}</version>
+			<scope>compile</scope>
+		</dependency>
+		
+		
 		<!-- https://mvnrepository.com/artifact/org.mybatis/mybatis -->
 		<dependency>
 			<groupId>org.mybatis</groupId>

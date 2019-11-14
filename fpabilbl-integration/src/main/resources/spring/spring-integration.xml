@@ -11,15 +11,24 @@
   	<!-- Process annotations on registered beans like @Autowired... -->
 	<context:annotation-config />
 	
-	<!-- 
-	<aop:aspectj-autoproxy />
-	 -->
-	
 	<!-- DAO MODULE CONFIGURATION MAIN FILE -->
 	<import resource="classpath*:spring/spring-dao.xml" />
 	
 	<!-- DATASOURCE MODULE CONFIGURATION MAIN FILE -->
 	<import resource="classpath*:spring/spring-datasource.xml" />
+	
+	
+	<bean id="pdProxyFactory" class="it.csi.fpabil.fpabilbl.integration.PdProxyFactory" />
+	
+	<!-- SERVSIFP ANAGRAFICA -->
+	<bean id="anagraficaFPService"
+		class="it.csi.anagrFP.interfacecsi.AnagraficaFPService"
+		factory-bean="pdProxyFactory" 
+		factory-method="getObject">
+		<constructor-arg
+			value="classpath:/pd/defPDServsifpAnagrafica.xml" />
+	</bean>
+	
 	
 
 </beans>

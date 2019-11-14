@@ -16,7 +16,6 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import it.csi.fpabil.fpabilbl.util.Constants;
 import it.csi.fpabil.fpabilbl.util.Tracer;
 import it.csi.fpabil.fpabilbl.util.XmlSerializer;
-import it.csi.fpabil.fpabilbl.web.adapter.ProvinciaAdapter;
 import it.csi.fpabil.fpabilbl.web.rest.service.AnagraficheApi;
 
 @RunWith(SpringJUnit4ClassRunner.class)

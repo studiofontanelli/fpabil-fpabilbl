@@ -1,0 +1,45 @@
+{
+  "operatore": {
+    "codice": "MINIMMI",
+    "gruppo": "string",
+    "codiceFiscale": "string",
+    "partitaIva": "string",
+    "tipoStatoSedeLegale": "string",
+    "comuneSedeLegale": "string",
+    "provinciaSedeLegale": "string",
+    "indirizzoSedeLegale": "string",
+    "capSedeLegale": "string",
+    "statoEsteroSedeLegale": "string",
+    "cittaEsteraSedeLegale": "string",
+    "telefono": "string",
+    "telefonoSecondario": "string",
+    "fax": "string",
+    "email": "string"
+  },
+  "richiedente": {
+    "nome": "string",
+    "cognome": "string",
+    "dataNascita": "2019-11-13",
+    "natoInItalia": true,
+    "comuneNascita": "string",
+    "provinciaNascita": "string",
+    "statoEsteroNascita": "string",
+    "cittaEsteraNascita": "string",
+    "tipoStatoNascita": "string",
+    "telefono": "string",
+    "email": "string"
+  },
+  "elencoPersone": [
+    {
+      "nome": "string",
+      "cognome": "string",
+      "dataNascita": "2019-11-13",
+      "email": "string",
+      "tipoRichiesta": "string",
+      "richiestaCertificatoDigitale": "string",
+      "tipoDocumento": "string",
+      "numeroDocumento": "string",
+      "dataRilascioDocumento": "2019-11-13"
+    }
+  ]
+}

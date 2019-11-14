@@ -1,17 +1,83 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <mappings xmlns="http://dozer.sourceforge.net"
-          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-          xsi:schemaLocation="http://dozer.sourceforge.net
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://dozer.sourceforge.net
           http://dozer.sourceforge.net/schema/beanmapping.xsd">
 
-  <configuration>
-    <stop-on-errors>true</stop-on-errors>
-    <date-format>MM/dd/yyyy HH:mm</date-format>
-    <wildcard>true</wildcard>
-  </configuration>
-  
-  
+	<configuration>
+		<stop-on-errors>true</stop-on-errors>
+		<date-format>dd/MM/yyyy HH:mm</date-format>
+		<wildcard>true</wildcard>
+	</configuration>
 
-  
+
+	<mapping>
+        <class-a>it.csi.common.vo.SelItem</class-a>
+        <class-b>it.csi.fpabil.fpabilbl.business.dto.ProvinciaDto</class-b>
+        <field>
+            <a>key</a>
+            <b>codice</b>
+        </field>
+        <field>
+            <a>value</a>
+            <b>descrizione</b>
+        </field>
+    </mapping>
+    
+    
+    <mapping>
+        <class-a>it.csi.common.vo.SelItem</class-a>
+        <class-b>it.csi.fpabil.fpabilbl.business.dto.ComuneDto</class-b>
+        <field>
+            <a>key</a>
+            <b>codice</b>
+        </field>
+        <field>
+            <a>value</a>
+            <b>descrizione</b>
+        </field>
+    </mapping>
+
+	<mapping>
+        <class-a>it.csi.common.vo.SelItem</class-a>
+        <class-b>it.csi.fpabil.fpabilbl.business.dto.StatoEsteroDto</class-b>
+        <field>
+            <a>key</a>
+            <b>codice</b>
+        </field>
+        <field>
+            <a>value</a>
+            <b>descrizione</b>
+        </field>
+    </mapping>
+    
+    
+    <mapping>
+        <class-a>it.csi.operatore.vo.Operatore</class-a>
+        <class-b>it.csi.fpabil.fpabilbl.business.dto.OperatoreDto</class-b>
+        <field>
+            <a>ipAdress</a>
+            <b>ipAddress</b>
+        </field>
+    </mapping>
+    
+    <mapping>
+        <class-a>it.csi.fpabil.fpabilbl.integration.dto.TabDocIdentita</class-a>
+        <class-b>it.csi.fpabil.fpabilbl.business.dto.TipoDocumentoDto</class-b>
+        <field>
+            <a>codTipoDocIdentita</a>
+            <b>codice</b>
+        </field>
+    </mapping>
+    
+    
+    
+    
+    
+    
+   
+
+
+
 </mappings>
 

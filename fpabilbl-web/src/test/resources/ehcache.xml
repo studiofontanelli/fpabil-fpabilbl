@@ -32,7 +32,7 @@
     The defaultCache has an implicit name "default" which is a reserved cache name.
     -->
    
-    <defaultCache
+    <defaultCache name = "cache-default-fpabilbl-fpabil"
             maxElementsInMemory="10000"
             eternal="false"
             timeToIdleSeconds="120"
@@ -46,7 +46,7 @@
             />
             
     <!-- Cache anagrafiche 1 day -->    
-    <cache name="anagrafiche"
+    <cache name="cache-anagrafiche-fpabilbl-fpabil"
 	       maxElementsInMemory="10000"
            maxElementsOnDisk="10000"
            eternal="false"

@@ -17,5 +17,31 @@
 
 	<!-- Process annotations on registered beans like @Autowired... -->
 	<context:annotation-config />
+	
+	
+	<bean id="pdProxyFactory" class="it.csi.fpabil.fpabilbl.integration.PdProxyFactory" />
+	
+	
+	
+	
+	<!-- SERVSIFP ANAGRAFICA -->
+	<bean id="anagraficaFPService"
+		class="it.csi.anagrFP.interfacecsi.AnagraficaFPService"
+		factory-bean="pdProxyFactory" 
+		factory-method="getObject">
+		<constructor-arg
+			value="classpath:/pd/defPDServsifpAnagrafica.xml" />
+	</bean>
+	
+	<!-- SERVSIFP OPERATORE -->
+	<bean id="operatoreFPService"
+		class="it.csi.operatore.interfacecsi.OperatoreFPService"
+		factory-bean="pdProxyFactory" 
+		factory-method="getObject">
+		<constructor-arg
+			value="classpath:/pd/defPDServsifpOperatore.xml" />
+	</bean>
+	
+	
 
 </beans>

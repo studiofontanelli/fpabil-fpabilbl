@@ -13,7 +13,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import it.csi.fpabil.fpabilbl.business.dto.ComuneDto;
+import it.csi.fpabil.fpabilbl.business.dto.OperatoreDto;
 import it.csi.fpabil.fpabilbl.business.dto.ProvinciaDto;
+import it.csi.fpabil.fpabilbl.business.dto.StatoEsteroDto;
+import it.csi.fpabil.fpabilbl.business.dto.TipoDocumentoDto;
 import it.csi.fpabil.fpabilbl.business.helper.AnagraficheHelper;
 import it.csi.fpabil.fpabilbl.util.Constants;
 import it.csi.fpabil.fpabilbl.util.Tracer;
@@ -70,6 +74,98 @@ public class AnagraficheHelperTest {
 			Tracer.debug(LOG, getClass().getName(), method, "END");
 		}
 
+	}
+	
+	@Test
+	public final void testGetComuniByProvincia() {
+		final String method = "testGetComuniByProvincia";
+		Tracer.debug(LOG, getClass().getName(), method, "BEGIN");
+
+		try {
+			List<ProvinciaDto> list = helper.getProvince();
+			Tracer.debug(LOG, getClass().getSimpleName(), method, "list\n" + XmlSerializer.objectToXml(list));
+			
+			for(ProvinciaDto provinciaDto : list) {
+				
+				List<ComuneDto> r = helper.getComuniByProvincia(provinciaDto.getCodice());
+				Tracer.debug(LOG, getClass().getSimpleName(), method, "comuni\n" + XmlSerializer.objectToXml(r));
+				
+			}
+			
+			assertNotNull(list);
+		} catch (Exception e) {
+			Tracer.error(LOG, getClass().getSimpleName(), method, "Exception: " + e);
+			fail();
+		}
+		finally {
+			Tracer.debug(LOG, getClass().getName(), method, "END");
+		}
+
+	}
+	
+	
+	@Test
+	public final void testGetStatiEsteri() {
+		final String method = "testGetStatiEsteri";
+		Tracer.debug(LOG, getClass().getName(), method, "BEGIN");
+
+		try {
+			List<StatoEsteroDto> list = helper.getStatiEsteri();
+			Tracer.debug(LOG, getClass().getSimpleName(), method, "list\n" + XmlSerializer.objectToXml(list));
+			
+
+			assertNotNull(list);
+		} catch (Exception e) {
+			Tracer.error(LOG, getClass().getSimpleName(), method, "Exception: " + e);
+			fail();
+		}
+		finally {
+			Tracer.debug(LOG, getClass().getName(), method, "END");
+		}
+
+	}
+	
+	@Test
+	public final void testGetOperatore() {
+		final String method = "testGetOperatore";
+		Tracer.debug(LOG, getClass().getName(), method, "BEGIN");
+
+		try {
+			
+			String gruppoOperatore = "B";
+			String codiceOperatore = "7";
+			
+			OperatoreDto operatore = helper.getOperatore(gruppoOperatore, codiceOperatore);
+			Tracer.debug(LOG, getClass().getSimpleName(), method, "OPERATORE\n" + XmlSerializer.objectToXml(operatore));
+		
+			assertNotNull(operatore);
+		} catch (Exception e) {
+			Tracer.error(LOG, getClass().getSimpleName(), method, "Exception: " + e);
+			fail();
+		}
+		finally {
+			Tracer.debug(LOG, getClass().getName(), method, "END");
+		}
+	}
+	@Test
+	public final void testGetTipiDocumento() {
+		final String method = "testGetTipiDocumento";
+		Tracer.debug(LOG, getClass().getName(), method, "BEGIN");
+
+		try {
+			
+			
+			List<TipoDocumentoDto> result = helper.getTipiDocumento();
+			Tracer.debug(LOG, getClass().getSimpleName(), method, "result\n" + XmlSerializer.objectToXml(result));
+		
+			assertNotNull(result);
+		} catch (Exception e) {
+			Tracer.error(LOG, getClass().getSimpleName(), method, "Exception: " + e);
+			fail();
+		}
+		finally {
+			Tracer.debug(LOG, getClass().getName(), method, "END");
+		}
 	}
 
 }

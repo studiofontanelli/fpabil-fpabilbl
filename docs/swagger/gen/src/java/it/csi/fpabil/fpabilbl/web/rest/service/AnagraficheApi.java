@@ -8,7 +8,10 @@ import it.csi.fpabil.fpabilbl.web.rest.dto.*;
 import io.swagger.annotations.ApiParam;
 import io.swagger.jaxrs.*;
 
+import it.csi.fpabil.fpabilbl.web.rest.dto.ComuneArray;
 import it.csi.fpabil.fpabilbl.web.rest.dto.ProvinciaArray;
+import it.csi.fpabil.fpabilbl.web.rest.dto.StatoArray;
+import it.csi.fpabil.fpabilbl.web.rest.dto.TipoDocumentoArray;
 
 import java.util.List;
 import java.util.Map;
@@ -31,6 +34,22 @@ import javax.validation.constraints.*;
 public interface AnagraficheApi  {
    
     @GET
+    @Path("/comuni/all")
+    
+    @Produces({ "application/json", "application/xml" })
+    @io.swagger.annotations.ApiOperation(value = "Get All comuni", notes = "Restituisce l'elenco completo dei comuni", response = ComuneArray.class, tags={  })
+    @io.swagger.annotations.ApiResponses(value = { 
+        @io.swagger.annotations.ApiResponse(code = 200, message = "OK", response = ComuneArray.class) })
+    public Response getComuni(@Context SecurityContext securityContext, @Context HttpHeaders httpHeaders );
+    @GET
+    @Path("/comuni/byprovincia")
+    
+    @Produces({ "application/json", "application/xml" })
+    @io.swagger.annotations.ApiOperation(value = "Get comuni By provicia", notes = "Restituisce l'elenco dei comuni della provincia passata come", response = ComuneArray.class, tags={  })
+    @io.swagger.annotations.ApiResponses(value = { 
+        @io.swagger.annotations.ApiResponse(code = 200, message = "OK", response = ComuneArray.class) })
+    public Response getComuniByProvincia( @NotNull @QueryParam("codprovincia") String codprovincia,@Context SecurityContext securityContext, @Context HttpHeaders httpHeaders );
+    @GET
     @Path("/province")
     
     @Produces({ "application/json", "application/xml" })
@@ -38,4 +57,20 @@ public interface AnagraficheApi  {
     @io.swagger.annotations.ApiResponses(value = { 
         @io.swagger.annotations.ApiResponse(code = 200, message = "OK", response = ProvinciaArray.class) })
     public Response getProvince(@Context SecurityContext securityContext, @Context HttpHeaders httpHeaders );
+    @GET
+    @Path("/statiesteri")
+    
+    @Produces({ "application/json", "application/xml" })
+    @io.swagger.annotations.ApiOperation(value = "Get Stati Esteri", notes = "Restituisce l'elenco degli stati esteri", response = StatoArray.class, tags={  })
+    @io.swagger.annotations.ApiResponses(value = { 
+        @io.swagger.annotations.ApiResponse(code = 200, message = "OK", response = StatoArray.class) })
+    public Response getStatiEsteri(@Context SecurityContext securityContext, @Context HttpHeaders httpHeaders );
+    @GET
+    @Path("/tipidocumento")
+    
+    @Produces({ "application/json", "application/xml" })
+    @io.swagger.annotations.ApiOperation(value = "Get All tipo documento", notes = "Restituisce l'elenco completo dei tipi documento", response = TipoDocumentoArray.class, tags={  })
+    @io.swagger.annotations.ApiResponses(value = { 
+        @io.swagger.annotations.ApiResponse(code = 200, message = "OK", response = TipoDocumentoArray.class) })
+    public Response getTipiDocumento(@Context SecurityContext securityContext, @Context HttpHeaders httpHeaders );
 }

@@ -29,6 +29,7 @@ public class FpabilblApplication extends Application {
 		List<String> l = new ArrayList<String>();
 		l.add("testApi");
 		l.add("anagraficheApi");
+		l.add("richiestaApi");
 		return l;
 		
 	}
@@ -45,19 +46,15 @@ public class FpabilblApplication extends Application {
 		try {
 			Tracer.debug(LOG, getClass().getName(), method, "loading rest services...");
 
-			
-			
 			//TestApi testApi = (TestApi) ApplicationContextManager.getBean("testApi");
 			//AnagraficheApi anagraficheApi = (AnagraficheApi) ApplicationContextManager.getBean("anagraficheApi");
 			
 			
-
-
-			
 			// Resources
 			for(String api : getServiceList()) {
 				Tracer.info(LOG, getClass().getName(), method, "adding api " + api);
-				this.singletons.add(ApplicationContextManager.getBean("anagraficheApi"));
+				//this.singletons.add(ApplicationContextManager.getBean("anagraficheApi"));
+				this.singletons.add(ApplicationContextManager.getBean(api));
 			}
 			
 			//this.singletons.add(testApi);
