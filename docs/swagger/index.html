@@ -205,6 +205,11 @@ font-style: italic;
   <h4><a href="#Save">Save</a></h4>
   <ul>
   <li><a href="#saveRequest"><code><span class="http-method">post</span> /richiesta/save</code></a></li>
+  <li><a href="#testPost"><code><span class="http-method">post</span> /richiesta/testPost</code></a></li>
+  </ul>
+  <h4><a href="#SearchRichiesta">SearchRichiesta</a></h4>
+  <ul>
+  <li><a href="#getRichiesta"><code><span class="http-method">get</span> /richiesta/search</code></a></li>
   </ul>
   <h4><a href="#Test">Test</a></h4>
   <ul>
@@ -491,6 +496,121 @@ font-style: italic;
         <a href="#"></a>
   </div> <!-- method -->
   <hr/>
+  <div class="method"><a name="testPost"/>
+    <div class="method-path">
+    <a class="up" href="#__Methods">Up</a>
+    <pre class="post"><code class="huge"><span class="http-method">post</span> /richiesta/testPost</code></pre></div>
+    <div class="method-summary"> (<span class="nickname">testPost</span>)</div>
+    <div class="method-notes">Test post</div>
+
+
+    <h3 class="field-label">Consumes</h3>
+    This API call consumes the following media types via the <span class="header">Content-Type</span> request header:
+    <ul>
+      <li><code>application/json</code></li>
+      <li><code>application/xml</code></li>
+    </ul>
+
+    <h3 class="field-label">Request body</h3>
+    <div class="field-items">
+      <div class="param">request <a href="#TestRequest">TestRequest</a> (required)</div>
+
+      <div class="param-desc"><span class="param-type">Body Parameter</span> &mdash;  </div>
+
+    </div>  <!-- field-items -->
+
+
+
+
+    <h3 class="field-label">Return type</h3>
+    <div class="return-type">
+      <a href="#GenericResponse">GenericResponse</a>
+      
+    </div>
+
+    <!--Todo: process Response Object and its headers, schema, examples -->
+
+    <h3 class="field-label">Example data</h3>
+    <div class="example-data-content-type">Content-Type: application/json</div>
+    <pre class="example"><code>{
+  "message" : "Servizio ha risposto correttamete"
+}</code></pre>
+    <h3 class="field-label">Example data</h3>
+    <div class="example-data-content-type">Content-Type: application/xml</div>
+    <pre class="example"><code><null>
+  <message>Servizio ha risposto correttamete</message>
+</null></code></pre>
+
+    <h3 class="field-label">Produces</h3>
+    This API call produces the following media types according to the <span class="header">Accept</span> request header;
+    the media type will be conveyed by the <span class="header">Content-Type</span> response header.
+    <ul>
+      <li><code>application/json</code></li>
+      <li><code>application/xml</code></li>
+    </ul>
+
+    <h3 class="field-label">Responses</h3>
+    <h4 class="field-label">200</h4>
+    OK
+        <a href="#GenericResponse">GenericResponse</a>
+    <h4 class="field-label">404</h4>
+    Qualcosa è andato storto
+        <a href="#"></a>
+  </div> <!-- method -->
+  <hr/>
+  <h1><a name="SearchRichiesta">SearchRichiesta</a></h1>
+  <div class="method"><a name="getRichiesta"/>
+    <div class="method-path">
+    <a class="up" href="#__Methods">Up</a>
+    <pre class="get"><code class="huge"><span class="http-method">get</span> /richiesta/search</code></pre></div>
+    <div class="method-summary">Recupera la richiesta (<span class="nickname">getRichiesta</span>)</div>
+    <div class="method-notes">Recupera la richiesta</div>
+
+
+
+
+
+    <h3 class="field-label">Query parameters</h3>
+    <div class="field-items">
+      <div class="param">codiceRichiesta (required)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash;  </div><div class="param">codiceOperatore (required)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash;  </div><div class="param">gruppoOperatore (required)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash;  </div>
+    </div>  <!-- field-items -->
+
+
+    <h3 class="field-label">Return type</h3>
+    <div class="return-type">
+      <a href="#ComuneArray">ComuneArray</a>
+      
+    </div>
+
+    <!--Todo: process Response Object and its headers, schema, examples -->
+
+    <h3 class="field-label">Example data</h3>
+    <div class="example-data-content-type">Content-Type: application/json</div>
+    <pre class="example"><code>""</code></pre>
+    <h3 class="field-label">Example data</h3>
+    <div class="example-data-content-type">Content-Type: application/xml</div>
+    <pre class="example"><code>null</code></pre>
+
+    <h3 class="field-label">Produces</h3>
+    This API call produces the following media types according to the <span class="header">Accept</span> request header;
+    the media type will be conveyed by the <span class="header">Content-Type</span> response header.
+    <ul>
+      <li><code>application/json</code></li>
+      <li><code>application/xml</code></li>
+    </ul>
+
+    <h3 class="field-label">Responses</h3>
+    <h4 class="field-label">200</h4>
+    OK
+        <a href="#ComuneArray">ComuneArray</a>
+  </div> <!-- method -->
+  <hr/>
   <h1><a name="Test">Test</a></h1>
   <div class="method"><a name="testResources"/>
     <div class="method-path">
@@ -556,12 +676,14 @@ font-style: italic;
     <li><a href="#Provincia"><code>Provincia</code> - </a></li>
     <li><a href="#ProvinciaArray"><code>ProvinciaArray</code> - </a></li>
     <li><a href="#Richiedente"><code>Richiedente</code> - </a></li>
+    <li><a href="#RichiestaResponse"><code>RichiestaResponse</code> - </a></li>
     <li><a href="#SalvaRichiestaRequest"><code>SalvaRichiestaRequest</code> - </a></li>
     <li><a href="#SalvaRichiestaResponse"><code>SalvaRichiestaResponse</code> - </a></li>
     <li><a href="#Stato"><code>Stato</code> - </a></li>
     <li><a href="#StatoArray"><code>StatoArray</code> - </a></li>
     <li><a href="#StatoRchiesta"><code>StatoRchiesta</code> - </a></li>
     <li><a href="#StatoRichiestaArray"><code>StatoRichiestaArray</code> - </a></li>
+    <li><a href="#TestRequest"><code>TestRequest</code> - </a></li>
     <li><a href="#TipoDocumento"><code>TipoDocumento</code> - </a></li>
     <li><a href="#TipoDocumentoArray"><code>TipoDocumentoArray</code> - </a></li>
   </ol>
@@ -663,6 +785,15 @@ font-style: italic;
     </div>  <!-- field-items -->
   </div>
   <div class="model">
+    <h3><a name="RichiestaResponse"><code>RichiestaResponse</code> - </a> <a class="up" href="#__Models">Up</a></h3>
+    <div class='model-description'>Richiesta Operatore</div>
+    <div class="field-items">
+      <div class="param">operatore (optional)</div><div class="param-desc"><span class="param-type"><a href="#Operatore">Operatore</a></span> l'operatore da salvare </div>
+<div class="param">richiedente (optional)</div><div class="param-desc"><span class="param-type"><a href="#Richiedente">Richiedente</a></span> Il richiedente </div>
+<div class="param">elencoPersone (optional)</div><div class="param-desc"><span class="param-type"><a href="#PersonaArray">PersonaArray</a></span> elenco persone da abilitare/disabilitare </div>
+    </div>  <!-- field-items -->
+  </div>
+  <div class="model">
     <h3><a name="SalvaRichiestaRequest"><code>SalvaRichiestaRequest</code> - </a> <a class="up" href="#__Models">Up</a></h3>
     <div class='model-description'>Richiesta inserimento Operatore</div>
     <div class="field-items">
@@ -705,6 +836,13 @@ font-style: italic;
     <div class='model-description'>Elenco di oggetti tipo Stato Richiesta</div>
     <div class="field-items">
           </div>  <!-- field-items -->
+  </div>
+  <div class="model">
+    <h3><a name="TestRequest"><code>TestRequest</code> - </a> <a class="up" href="#__Models">Up</a></h3>
+    <div class='model-description'>Richiesta di Test</div>
+    <div class="field-items">
+      <div class="param">param (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> l'operatore da salvare </div>
+    </div>  <!-- field-items -->
   </div>
   <div class="model">
     <h3><a name="TipoDocumento"><code>TipoDocumento</code> - </a> <a class="up" href="#__Models">Up</a></h3>

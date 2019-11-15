@@ -154,6 +154,14 @@
 			</build>
 		</profile>
 		<profile>
+			<id>cuttica</id>
+			<build>
+				<filters>
+					<filter>buildfiles/${property.file.name.source}</filter>
+				</filters>
+			</build>
+		</profile>
+		<profile>
 			<id>local</id>
 			<build>
 				<filters>

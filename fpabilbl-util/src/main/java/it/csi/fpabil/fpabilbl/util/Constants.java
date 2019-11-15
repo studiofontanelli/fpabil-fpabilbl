@@ -29,5 +29,10 @@ public class Constants {
     
     
     
+    public static final String TIPO_SEDE_LEGALE_ITALIA = "I";
+    public static final String TIPO_SEDE_LEGALE_ESTERO = "E";
+    
+    
+    
     
 }

@@ -29,6 +29,15 @@
 			value="classpath:/pd/defPDServsifpAnagrafica.xml" />
 	</bean>
 	
+	<!-- SERVSIFP OPERATORE -->
+	<bean id="operatoreFPService"
+		class="it.csi.operatore.interfacecsi.OperatoreFPService"
+		factory-bean="pdProxyFactory" 
+		factory-method="getObject">
+		<constructor-arg
+			value="classpath:/pd/defPDServsifpOperatore.xml" />
+	</bean>
+	
 	
 
 </beans>

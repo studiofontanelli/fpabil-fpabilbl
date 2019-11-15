@@ -10,11 +10,11 @@ import javax.ws.rs.core.Application;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import it.csi.fpabil.fpabilbl.business.helper.FpabilHelper;
 import it.csi.fpabil.fpabilbl.util.ApplicationContextManager;
 import it.csi.fpabil.fpabilbl.util.Constants;
 import it.csi.fpabil.fpabilbl.util.Tracer;
 import it.csi.fpabil.fpabilbl.web.provider.ExceptionHandler;
-import it.csi.fpabil.fpabilbl.web.rest.service.AnagraficheApi;
 import it.csi.fpabil.fpabilbl.web.rest.service.TestApi;
 
 
@@ -45,7 +45,9 @@ public class FpabilblApplication extends Application {
 		final String method = "CONSTRUCTOR";
 		try {
 			Tracer.debug(LOG, getClass().getName(), method, "loading rest services...");
-
+			
+			
+			
 			//TestApi testApi = (TestApi) ApplicationContextManager.getBean("testApi");
 			//AnagraficheApi anagraficheApi = (AnagraficheApi) ApplicationContextManager.getBean("anagraficheApi");
 			
@@ -68,6 +70,12 @@ public class FpabilblApplication extends Application {
 			
 			//classes.add(ExceptionHandler.class);
 			
+			
+			FpabilHelper fpabilHelper = (FpabilHelper) ApplicationContextManager.getBean("fpabilHelper");
+			
+			boolean testResource = fpabilHelper.testResources("SELF CHECK");
+			
+			Tracer.info(LOG, getClass().getName(), method, "testResource= " + testResource);
 			
 			Tracer.info(LOG, getClass().getName(), method, "Startup rest services done correctly!");
 		}

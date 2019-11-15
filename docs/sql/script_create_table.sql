@@ -74,7 +74,7 @@ WITH (
 
 
 ALTER TABLE db_iride_richiesta_operatore
-  ADD COLUMN codice_richiesta character varying varying(16);
+  ADD COLUMN codice_richiesta character varying(16);
 
 
 

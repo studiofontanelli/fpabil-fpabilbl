@@ -66,7 +66,8 @@ public class CommonHelperImpl  {
 			boolean result = (
 					getTestResourceIntegration().testResource() && 
 					testResourceMapper.testResource() && 
-					servSifpAnagraficaFPIntegration.testResource());
+					servSifpAnagraficaFPIntegration.testResource() && 
+					servsifpOperatoreFPIntegration.testResources());
 			
 			if(1==11) {
 				throw new HelperException("EX****");

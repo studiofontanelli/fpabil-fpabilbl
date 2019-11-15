@@ -314,6 +314,13 @@
 			</properties>
 		</profile>
 		<profile>
+			<id>cuttica</id>
+			<properties>
+				<profile-id>cuttica</profile-id>
+				<property.file.name.source>cuttica.properties</property.file.name.source>
+			</properties>
+		</profile>
+		<profile>
 			<id>dev-rp-01</id>
 			<properties>
 				<profile-id>dev-rp-01</profile-id>

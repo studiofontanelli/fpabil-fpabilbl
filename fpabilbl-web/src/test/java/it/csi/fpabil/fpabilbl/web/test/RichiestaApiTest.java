@@ -108,7 +108,7 @@ public class RichiestaApiTest {
 			request.getOperatore().setPartitaIva(null);
 			
 			// CASO ITALIA
-			
+			request.getOperatore().setTipoStatoSedeLegale(Constants.TIPO_SEDE_LEGALE_ITALIA);
 			request.getOperatore().setCapSedeLegale("10036"); // OBBLIGATORIO
 			request.getOperatore().setProvinciaSedeLegale("001"); // OBBLIGATORIO
 			request.getOperatore().setComuneSedeLegale("001272"); // OBBLIGATORIO
@@ -144,6 +144,20 @@ public class RichiestaApiTest {
 			
 			request.setElencoPersone(new PersonaArray());
 			request.getElencoPersone().add(persona);
+			
+			
+			
+			// WRITE JSON
+			
+			ObjectMapper objectMapper = new ObjectMapper();	
+			//objectMapper.writerWithDefaultPrettyPrinter();
+			
+			String requestJson = 	objectMapper.writeValueAsString(request);
+			
+			
+			
+			
+			Tracer.debug(LOG, getClass().getName(), method, "requestJson= \n"+requestJson);
 			
 			
 			

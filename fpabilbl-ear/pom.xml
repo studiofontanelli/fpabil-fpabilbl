@@ -46,10 +46,32 @@
 					</plugin>
 				</plugins>
 			</build>
-			
-			
-			
-			
+		</profile>
+		<profile>
+			<id>cuttica</id>
+			<build>
+				<plugins>
+					<plugin>
+						<artifactId>maven-antrun-plugin</artifactId>
+
+						<executions>
+							<execution>
+								<id>copy</id>
+								<phase>install</phase>
+								<configuration>
+									<tasks>
+										<copy file="${project.build.directory}/${ear.name}.ear"
+											tofile="${JBOSS_HOME}/standalone/deployments/${ear.name}.ear" />
+									</tasks>
+								</configuration>
+								<goals>
+									<goal>run</goal>
+								</goals>
+							</execution>
+						</executions>
+					</plugin>
+				</plugins>
+			</build>
 		</profile>
 	</profiles>
 
