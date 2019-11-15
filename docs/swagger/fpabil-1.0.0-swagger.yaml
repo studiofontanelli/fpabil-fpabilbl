@@ -131,7 +131,60 @@ paths:
             $ref: '#/definitions/SalvaRichiestaResponse'
           description: OK
         404:
-          description: 'Qualcosa è andato storto'        
+          description: 'Qualcosa è andato storto' 
+  /richiesta/testPost:
+    post:
+      tags:
+        - save
+      description: Test post
+      operationId: testPost
+      consumes:
+        - application/json
+        - application/xml
+      produces:
+        - application/json
+        - application/xml
+      parameters:
+        - in: body
+          name: request
+          schema:
+            $ref: '#/definitions/TestRequest'
+          required: true
+      responses:
+        200:
+          schema: 
+            $ref: '#/definitions/GenericResponse'
+          description: OK
+        404:
+          description: 'Qualcosa è andato storto' 
+  /richiesta/search:
+    get:
+      tags:
+        - search richiesta
+      summary: Recupera la richiesta
+      description: Recupera la richiesta
+      operationId: getRichiesta
+      produces:
+      - application/json
+      - application/xml
+      parameters:
+        - in: query
+          name: codiceRichiesta
+          type: string
+          required: true
+        - in: query
+          name: codiceOperatore
+          type: string
+          required: true 
+        - in: query
+          name: gruppoOperatore
+          type: string
+          required: true 
+      responses:
+        200:
+          schema: 
+            $ref: '#/definitions/ComuneArray'
+          description: OK   
 # Added by API Auto Mocking Plugin
 host: virtserver.swaggerhub.com
 # basePath: /fpabilbl/rest/1.0.0
@@ -384,6 +437,29 @@ definitions:
       codiceRichiesta:
         type: string
         description: Codice richiesta
+  TestRequest:
+    type: object
+    description: Richiesta di Test
+    properties:
+      param:
+        type: string
+        description: l'operatore da salvare
+  RichiestaResponse:
+    type: object
+    description: Richiesta Operatore
+    properties:
+      operatore:
+        type: object
+        description: l'operatore da salvare
+        $ref: '#/definitions/Operatore'
+      richiedente:
+        type: object
+        description: Il richiedente
+        $ref: '#/definitions/Richiedente'
+      elencoPersone:
+        type: object
+        description: elenco persone da abilitare/disabilitare
+        $ref: '#/definitions/PersonaArray'      
         
 # Added by API Auto Mocking Plugin
 schemes:
