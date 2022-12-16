@@ -240,7 +240,7 @@
 
 		<!-- Frameworks and Libraries -->
 		<configurator.core.version>1.1.22</configurator.core.version>
-		<springframework.version>3.1.1.RELEASE</springframework.version>
+		<springframework.version>5.2.20.RELEASE</springframework.version>
 		
 		<commons-codec.version>1.6</commons-codec.version>
 		<commons-httpclient.version>3.1</commons-httpclient.version>
